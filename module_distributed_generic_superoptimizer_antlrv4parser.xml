@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="module_dgso_antlrv4parser" default="create.module.dgso.antlrv4parser">
-  <dirname property="module.dgso.basedir" file="/module_distributed_generic_superoptimizer_antlrv4parser.xml"/>
+  <dirname property="module.dgso.basedir" file="module_distributed_generic_superoptimizer_antlrv4parser.xml"/>
 
   <property name="dgso.antlrv4parser.output.dir" value="${module.dgso.basedir}/src/org/dgso/antlrv4parser"/>
 
