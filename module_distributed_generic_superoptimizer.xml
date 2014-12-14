@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_distributed_generic_superoptimizer" default="compile.module.distributed_generic_superoptimizer">
+  <dirname property="module.distributed_generic_superoptimizer.basedir" file="${ant.file.module_distributed_generic_superoptimizer}"/>
+  
+  <property name="module.jdk.home.distributed_generic_superoptimizer" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.distributed_generic_superoptimizer" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.distributed_generic_superoptimizer" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.distributed_generic_superoptimizer" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="distributed_generic_superoptimizer.output.dir" value="${module.distributed_generic_superoptimizer.basedir}/out/production/distributed_generic_superoptimizer"/>
+  <property name="distributed_generic_superoptimizer.testoutput.dir" value="${module.distributed_generic_superoptimizer.basedir}/out/test/distributed_generic_superoptimizer"/>
+  
+  <path id="distributed_generic_superoptimizer.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="distributed_generic_superoptimizer.module.production.classpath">
+    <path refid="${module.jdk.classpath.distributed_generic_superoptimizer}"/>
+    <path refid="library.antlr-4.4-complete.classpath"/>
+  </path>
+  
+  <path id="distributed_generic_superoptimizer.runtime.production.module.classpath">
+    <pathelement location="${distributed_generic_superoptimizer.output.dir}"/>
+    <path refid="library.antlr-4.4-complete.classpath"/>
+  </path>
+  
+  <path id="distributed_generic_superoptimizer.module.classpath">
+    <path refid="${module.jdk.classpath.distributed_generic_superoptimizer}"/>
+    <pathelement location="${distributed_generic_superoptimizer.output.dir}"/>
+    <path refid="library.antlr-4.4-complete.classpath"/>
+  </path>
+  
+  <path id="distributed_generic_superoptimizer.runtime.module.classpath">
+    <pathelement location="${distributed_generic_superoptimizer.testoutput.dir}"/>
+    <pathelement location="${distributed_generic_superoptimizer.output.dir}"/>
+    <path refid="library.antlr-4.4-complete.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.distributed_generic_superoptimizer">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.distributed_generic_superoptimizer">
+    <patternset refid="excluded.from.module.distributed_generic_superoptimizer"/>
+  </patternset>
+  
+  
+  <target name="compile.module.distributed_generic_superoptimizer" depends="compile.module.distributed_generic_superoptimizer.production,compile.module.distributed_generic_superoptimizer.tests" description="Compile module distributed_generic_superoptimizer"/>
+  
+  <target name="compile.module.distributed_generic_superoptimizer.production" depends="register.custom.compilers" description="Compile module distributed_generic_superoptimizer; production classes"/>
+  
+  <target name="compile.module.distributed_generic_superoptimizer.tests" depends="register.custom.compilers,compile.module.distributed_generic_superoptimizer.production" description="compile module distributed_generic_superoptimizer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.distributed_generic_superoptimizer" description="cleanup module">
+    <delete dir="${distributed_generic_superoptimizer.output.dir}"/>
+    <delete dir="${distributed_generic_superoptimizer.testoutput.dir}"/>
+  </target>
+</project>
