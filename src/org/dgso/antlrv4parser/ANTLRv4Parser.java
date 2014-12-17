@@ -1,13 +1,10 @@
-// Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/IdeaProjects/dgso/conf/ANTLRv4Parser.g4 by ANTLR 4.4
+// Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/distributed_generic_superoptimizer_mac/conf/ANTLRv4Parser.g4 by ANTLR 4.4
 package org.dgso.antlrv4parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ANTLRv4Parser extends Parser {
@@ -118,12 +115,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_grammarSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterGrammarSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitGrammarSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitGrammarSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -195,12 +189,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_grammarType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterGrammarType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitGrammarType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitGrammarType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -263,12 +254,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_prequelConstruct; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterPrequelConstruct(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitPrequelConstruct(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitPrequelConstruct(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -335,12 +323,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_optionsSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterOptionsSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitOptionsSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitOptionsSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -393,12 +378,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_option; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterOption(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitOption(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitOption(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -443,12 +425,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_optionValue; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterOptionValue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitOptionValue(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitOptionValue(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -531,12 +510,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_delegateGrammars; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterDelegateGrammars(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitDelegateGrammars(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitDelegateGrammars(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -590,12 +566,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_delegateGrammar; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterDelegateGrammar(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitDelegateGrammar(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitDelegateGrammar(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -650,12 +623,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_tokensSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterTokensSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitTokensSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitTokensSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -722,12 +692,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_action; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterAction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitAction(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitAction(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -773,12 +740,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_actionScopeName; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterActionScopeName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitActionScopeName(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitActionScopeName(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -839,12 +803,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_modeSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterModeSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitModeSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitModeSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -896,12 +857,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rules; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRules(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRules(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRules(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -950,12 +908,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1025,12 +980,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parserRuleSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterParserRuleSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitParserRuleSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitParserRuleSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1135,12 +1087,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_exceptionGroup; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterExceptionGroup(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitExceptionGroup(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitExceptionGroup(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1194,12 +1143,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_exceptionHandler; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterExceptionHandler(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitExceptionHandler(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitExceptionHandler(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1233,12 +1179,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_finallyClause; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterFinallyClause(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitFinallyClause(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitFinallyClause(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1275,12 +1218,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rulePrequel; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRulePrequel(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRulePrequel(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRulePrequel(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1325,12 +1265,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleReturns; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleReturns(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleReturns(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleReturns(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1372,12 +1309,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_throwsSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterThrowsSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitThrowsSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitThrowsSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1425,12 +1359,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_localsSpec; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLocalsSpec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLocalsSpec(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLocalsSpec(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1466,12 +1397,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleAction; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleAction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleAction(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleAction(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1509,12 +1437,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleModifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleModifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleModifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleModifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1561,12 +1486,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1605,12 +1527,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleBlock; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1650,12 +1569,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleAltList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleAltList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleAltList(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleAltList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1707,12 +1623,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_labeledAlt; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLabeledAlt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLabeledAlt(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLabeledAlt(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1760,12 +1673,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerRule; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerRule(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerRule(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerRule(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1818,12 +1728,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerRuleBlock; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerRuleBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerRuleBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerRuleBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1863,12 +1770,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerAltList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerAltList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerAltList(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerAltList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1919,12 +1823,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerAlt; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerAlt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerAlt(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerAlt(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1990,12 +1891,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerElements; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerElements(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerElements(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerElements(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2052,12 +1950,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerElement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerElement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerElement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2154,12 +2049,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_labeledLexerElement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLabeledLexerElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLabeledLexerElement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLabeledLexerElement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2221,12 +2113,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerBlock; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2269,12 +2158,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerCommands; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerCommands(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerCommands(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerCommands(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2328,12 +2214,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerCommand; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerCommand(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerCommand(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerCommand(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2381,12 +2264,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerCommandName; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerCommandName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerCommandName(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerCommandName(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2434,12 +2314,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerCommandExpr; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerCommandExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerCommandExpr(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerCommandExpr(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2493,12 +2370,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_altList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterAltList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitAltList(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitAltList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2552,12 +2426,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_alternative; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterAlternative(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitAlternative(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitAlternative(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2622,12 +2493,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_element; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitElement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitElement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2752,12 +2620,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_labeledElement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLabeledElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLabeledElement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLabeledElement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2819,12 +2684,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ebnf; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterEbnf(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitEbnf(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitEbnf(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2866,12 +2728,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_blockSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterBlockSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitBlockSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitBlockSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2907,12 +2766,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ebnfSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterEbnfSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitEbnfSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitEbnfSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3001,12 +2857,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lexerAtom; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterLexerAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitLexerAtom(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitLexerAtom(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3096,12 +2949,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitAtom(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitAtom(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3176,12 +3026,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_notSet; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterNotSet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitNotSet(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitNotSet(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3236,12 +3083,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_blockSet; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterBlockSet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitBlockSet(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitBlockSet(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3297,12 +3141,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_setElement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterSetElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitSetElement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitSetElement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3387,12 +3228,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3459,12 +3297,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ruleref; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRuleref(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRuleref(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRuleref(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3516,12 +3351,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterRange(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitRange(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitRange(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3558,12 +3390,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_terminal; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterTerminal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitTerminal(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitTerminal(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3635,12 +3464,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_elementOptions; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterElementOptions(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitElementOptions(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitElementOptions(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3695,12 +3521,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_elementOption; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterElementOption(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitElementOption(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitElementOption(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3760,12 +3583,9 @@ public class ANTLRv4Parser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_id; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).enterId(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ANTLRv4ParserListener ) ((ANTLRv4ParserListener)listener).exitId(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ANTLRv4ParserVisitor ) return ((ANTLRv4ParserVisitor<? extends T>)visitor).visitId(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 

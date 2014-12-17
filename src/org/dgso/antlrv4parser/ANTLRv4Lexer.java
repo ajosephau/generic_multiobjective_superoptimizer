@@ -1,9 +1,8 @@
-// Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/IdeaProjects/dgso/conf/ANTLRv4Lexer.g4 by ANTLR 4.4
+// Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/distributed_generic_superoptimizer_mac/conf/ANTLRv4Lexer.g4 by ANTLR 4.4
 package org.dgso.antlrv4parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
