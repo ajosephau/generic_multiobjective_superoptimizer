@@ -6,10 +6,46 @@ import org.dgso.antlrv4parser.ANTLRv4ParserBaseVisitor;
  * ANTLRv4 visitor parser to handle ANTLR text.
  */
 public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
-    @Override
-    public Boolean visitGrammarSpec(ANTLRv4Parser.GrammarSpecContext ctx) {
+    /**
+     * Visit a parse tree produced by {@link ANTLRv4Parser#grammarSpec}.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    public Boolean visitGrammarSpec(@NotNull ANTLRv4Parser.GrammarSpecContext ctx){
+        System.out.println("Grammar Spec");
+
+        visitChildren(ctx);
+
         return true;
     }
+
+    /**
+     * Visit a parse tree produced by {@link ANTLRv4Parser#rules}.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    public Boolean visitRules(@NotNull ANTLRv4Parser.RulesContext ctx) {
+        System.out.println("Rules");
+
+        visitChildren(ctx);
+
+        return true;
+    }
+
+    /**
+     * Visit a parse tree produced by {@link ANTLRv4Parser#ruleSpec}.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    public Boolean visitRuleSpec(@NotNull ANTLRv4Parser.RuleSpecContext ctx){
+        System.out.println("Rule spec");
+
+        visitChildren(ctx);
+
+        return true;
+    }
+
+
 
     /**
      * {@inheritDoc}
@@ -94,7 +130,7 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
      */
     @Override
     public Boolean visitAtom(@NotNull ANTLRv4Parser.AtomContext ctx) {
-        System.out.println("Atom text: " + ctx.getText());
+//        System.out.println("Atom text: " + ctx.getText());
         if (ctx.terminal() != null) {
             System.out.println("Atom type: " + ctx.terminal().STRING_LITERAL());
         }

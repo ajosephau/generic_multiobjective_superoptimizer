@@ -17,7 +17,7 @@ public class Main {
         ANTLRv4Lexer lexer = new ANTLRv4Lexer(input); // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); // create a parser that feeds off the tokens buffer
         ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
-        ParseTree tree = parser.parserRuleSpec();
+        ParseTree tree = parser.grammarSpec();
         ANTLRv4Visitor av = new ANTLRv4Visitor();
         av.visit(tree);
         System.out.println(tree.toStringTree(parser)); // print LISP-style tree

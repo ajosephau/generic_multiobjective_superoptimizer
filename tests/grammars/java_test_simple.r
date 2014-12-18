@@ -1,3 +1,0 @@
-expressionAA
-    :   expression ('+'|'-') expression
-    ;
