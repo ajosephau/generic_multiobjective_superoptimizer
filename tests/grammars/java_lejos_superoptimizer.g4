@@ -1,13 +1,12 @@
-parser grammar java_lejos_superoptimizer;
+grammar java_lejos_superoptimizer;
 
 statement
     :   'if' parExpression statement ('else' statement)?
-    |   'for' '(' forControl ')' statement
     |   'while' parExpression statement
     |   'do' statement 'while' parExpression ';'
     |   'switch' parExpression '{' switchBlockStatementGroup* switchLabel* '}'
     |   'return' expression? ';'
-    |   primary '=' statementExpression ';'
+    |   primary '=' expression ';'
     ;
 
 parExpression
@@ -15,7 +14,7 @@ parExpression
     ;
 
 switchBlockStatementGroup
-    :   switchLabel+ blockStatement+
+    :   switchLabel+ statement+
     ;
 
 switchLabel
@@ -25,15 +24,6 @@ switchLabel
 
 expression
     :   primary
-    |   expression '.' Identifier
-    |   expression '.' 'this'
-    |   expression '.' 'new' nonWildcardTypeArguments? innerCreator
-    |   expression '.' 'super' superSuffix
-    |   expression '.' explicitGenericInvocation
-    |   expression '[' expression ']'
-    |   expression '(' expressionList? ')'
-    |   'new' creator
-    |   '(' type ')' expression
     |   expression ('++' | '--')
     |   ('+'|'-'|'++'|'--') expression
     |   ('~'|'!') expression
@@ -41,7 +31,6 @@ expression
     |   expression ('+'|'-') expression
     |   expression ('<' '<' | '>' '>' '>' | '>' '>') expression
     |   expression ('<=' | '>=' | '>' | '<') expression
-    |   expression 'instanceof' type
     |   expression ('==' | '!=') expression
     |   expression '&' expression
     |   expression '^' expression
@@ -56,3 +45,12 @@ primary
     |   'variableB'
     |   'null'
     ;
+
+constantExpression
+    :   'case1'
+    |   'case2'
+    |   'case3'
+    ;
+
+LOWER_CASE_CHARACTERS : [a-z]+ ;  // match lower-case identifiers
+WHITESPACE : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines, \r (Windows)
