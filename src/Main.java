@@ -14,11 +14,11 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        // create a CharStream that reads from standard input
+        // setup logger
         mainLogger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
-
+        // create a CharStream that reads from standard input
         String inputFile = null;
         if (args.length > 0){
             inputFile = args[0];
@@ -27,14 +27,18 @@ public class Main {
         if (inputFile != null) {
             is = new FileInputStream(inputFile);
         }
+
+        // setup lexer and parser
         ANTLRInputStream input = new ANTLRInputStream(is);
         ANTLRv4Lexer lexer = new ANTLRv4Lexer(input); // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); // create a parser that feeds off the tokens buffer
         ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
 
-        //start parsing the "grammarSpec" rule in the ANTLRv4 rule
+        //start parsing the "grammarSpec" rule in the ANTLRv4 parser/lexer file
         ParseTree tree = parser.grammarSpec();
         ANTLRv4Visitor av = new ANTLRv4Visitor();
+
+        //start visiting parser tree
         av.visit(tree);
 
         mainLogger.debug("Parsed grammar: " + tree.toStringTree(parser));
