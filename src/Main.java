@@ -1,6 +1,8 @@
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
 
@@ -8,9 +10,15 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class Main {
+    static Logger mainLogger;
+
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
+        mainLogger = Logger.getLogger(Main.class);
+        BasicConfigurator.configure();
+
+
         String inputFile = null;
         if (args.length > 0){
             inputFile = args[0];
@@ -29,6 +37,6 @@ public class Main {
         ANTLRv4Visitor av = new ANTLRv4Visitor();
         av.visit(tree);
 
-        System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+        mainLogger.debug("Parsed grammar: " + tree.toStringTree(parser));
     }
 }
