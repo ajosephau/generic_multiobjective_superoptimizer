@@ -1,12 +1,13 @@
 // Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/distributed_generic_superoptimizer_mac/conf/ANTLRv4Lexer.g4 by ANTLR 4.4
 package org.dgso.antlrv4parser;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.LexerATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.misc.Interval;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ANTLRv4Lexer extends Lexer {

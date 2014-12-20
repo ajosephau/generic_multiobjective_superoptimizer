@@ -5,9 +5,12 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
+import org.dgso.superoptimizer.ANTLRv4Visitor;
+import org.dgso.superoptimizer.GrammarClass;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Main {
     static Logger mainLogger;
@@ -20,7 +23,7 @@ public class Main {
 
         // create a CharStream that reads from standard input
         String inputFile = null;
-        if (args.length > 0){
+        if (args.length > 0) {
             inputFile = args[0];
         }
         InputStream is = System.in;
@@ -39,7 +42,9 @@ public class Main {
         ANTLRv4Visitor av = new ANTLRv4Visitor();
 
         //start visiting parser tree
-        av.visit(tree);
+        ArrayList<GrammarClass> results = (ArrayList<GrammarClass>) av.visit(tree);
+
+        System.out.println(results);
 
         mainLogger.debug("Parsed grammar: " + tree.toStringTree(parser));
     }
