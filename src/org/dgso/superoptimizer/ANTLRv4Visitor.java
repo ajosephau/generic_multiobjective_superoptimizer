@@ -5,25 +5,22 @@ import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
 import org.dgso.antlrv4parser.ANTLRv4ParserBaseVisitor;
 
-import java.util.ArrayList;
-
 /**
  * ANTLRv4 visitor parser to handle ANTLR text.
  */
 public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
 
-    private ArrayList<GrammarClass> grammarObjects;
-    private String currentGrammarSpec;
-    private String currentParserRuleSpec;
-
+    private Grammar grammar;
+    private GrammarClass currentGrammarSpec, currentParserRuleSpec, currentlabeledAlt, currentAltList;
     private Logger logger;
 
     public ANTLRv4Visitor() {
         logger = Logger.getLogger(ANTLRv4Visitor.class);
-        grammarObjects = new ArrayList<GrammarClass>();
-        currentGrammarSpec = "";
-        currentParserRuleSpec = "";
-
+        grammar = new Grammar();
+        currentGrammarSpec = null;
+        currentParserRuleSpec = null;
+        currentlabeledAlt = null;
+        currentAltList = null;
     }
 
     /**
@@ -32,18 +29,18 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
      * @param ctx the parse tree
      * @return the visitor result
      */
-    public ArrayList<GrammarClass> visitGrammarSpec(@NotNull ANTLRv4Parser.GrammarSpecContext ctx) {
-        currentGrammarSpec = ctx.id().getText();
+    public Grammar visitGrammarSpec(@NotNull ANTLRv4Parser.GrammarSpecContext ctx) {
+        String currentGrammarSpecName = ctx.id().getText();
 
         logger.debug("* ANTLRv4 Grammar Spec detected");
-        logger.debug("* ANTLRv4 Grammar Spec text: " + currentGrammarSpec);
+        logger.debug("* ANTLRv4 Grammar Spec text: " + currentGrammarSpecName);
 
-        GrammarClass grammarSpec = new GrammarClass(currentGrammarSpec, "", GrammarType.ANTLR_GRAMMAR_SPEC);
-        grammarObjects.add(grammarSpec);
+        currentGrammarSpec = new GrammarClass(currentGrammarSpecName, null, GrammarType.ANTLR_GRAMMAR_SPEC);
+        grammar.addEntry(GrammarType.ANTLR_GRAMMAR_SPEC, currentGrammarSpec);
 
         visitChildren(ctx);
 
-        return grammarObjects;
+        return grammar;
     }
 
     /**
@@ -53,22 +50,68 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public ArrayList<GrammarClass> visitParserRuleSpec(@NotNull ANTLRv4Parser.ParserRuleSpecContext ctx) {
-        currentParserRuleSpec = ctx.getStart().getText();
+    public Grammar visitParserRuleSpec(@NotNull ANTLRv4Parser.ParserRuleSpecContext ctx) {
+        String currentParserRuleSpecName = ctx.getStart().getText();
 
         logger.debug("**** ANTLRv4 Parser Rule Spec detected");
         logger.debug("**** ANTLRv4 Parser Rule Spec text: " + ctx.getText());
         logger.debug("**** ANTLRv4 Parser Rule Spec RHS: " + ctx.ruleBlock().getText());
         logger.debug("**** ANTLRv4 Parser Rule Spec LHS: " + ctx.getStart().getText());
-        logger.debug("**** ANTLRv4 Parser Rule Spec parent: " + ctx.getText());
 
-        GrammarClass parserRuleSpec = new GrammarClass(currentParserRuleSpec, currentGrammarSpec, GrammarType.PARSER_RULE_SPEC);
-        grammarObjects.add(parserRuleSpec);
+        currentParserRuleSpec = new GrammarClass(currentParserRuleSpecName, currentGrammarSpec, GrammarType.PARSER_RULE_SPEC);
+        currentGrammarSpec.addChild(currentParserRuleSpec);
+        grammar.addEntry(GrammarType.PARSER_RULE_SPEC, currentParserRuleSpec);
 
         visitChildren(ctx);
 
-        return grammarObjects;
+        return grammar;
     }
+
+
+    /**
+     * Visit a parse tree produced by {@link ANTLRv4Parser#labeledAlt}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    public Grammar visitLabeledAlt(@NotNull ANTLRv4Parser.LabeledAltContext ctx) {
+        String labeledAltName = ctx.getText();
+        currentAltList = null;
+
+        logger.debug("******* ANTLRv4 LabeledAlt detected");
+        logger.debug("******* ANTLRv4 LabeledAlt text: " + labeledAltName);
+
+        currentlabeledAlt = new GrammarClass(labeledAltName, currentParserRuleSpec, GrammarType.LABELED_ALT);
+        currentParserRuleSpec.addChild(currentlabeledAlt);
+        grammar.addEntry(GrammarType.LABELED_ALT, currentParserRuleSpec);
+
+        System.out.println(ctx.alternative());
+        visitChildren(ctx);
+
+        return grammar;
+    }
+
+    /**
+     * Visit a parse tree produced by {@link ANTLRv4Parser#altList}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    public Grammar visitAltList(@NotNull ANTLRv4Parser.AltListContext ctx) {
+        String altListName = ctx.getText();
+
+        logger.debug("****** ANTLRv4 AltList detected");
+        logger.debug("****** ANTLRv4 AltList text: " + altListName);
+
+        currentAltList = new GrammarClass(altListName, currentParserRuleSpec, GrammarType.ALT_LIST);
+        currentlabeledAlt.addChild(currentAltList);
+        grammar.addEntry(GrammarType.ALT_LIST, currentAltList);
+
+        visitChildren(ctx);
+
+        return grammar;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -77,40 +120,47 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public ArrayList<GrammarClass> visitRuleref(@NotNull ANTLRv4Parser.RulerefContext ctx) {
+    public Grammar visitRuleref(@NotNull ANTLRv4Parser.RulerefContext ctx) {
         String ruleRefName = ctx.getText();
 
         logger.debug("****** ANTLRv4 Rule Reference detected");
         logger.debug("****** ANTLRv4 Rule Reference text: " + ruleRefName);
 
         GrammarClass grammarSpec = new GrammarClass(ruleRefName, currentParserRuleSpec, GrammarType.RULE_REFERENCE);
-        grammarObjects.add(grammarSpec);
+        currentlabeledAlt.addChild(grammarSpec);
+        grammar.addEntry(GrammarType.RULE_REFERENCE, grammarSpec);
 
         visitChildren(ctx);
 
-        return grammarObjects;
+        return grammar;
     }
 
     /**
-     * {@inheritDoc}
-     * <p/>
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
+     * Visit a parse tree produced by {@link ANTLRv4Parser#terminal}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
      */
-    @Override
-    public ArrayList<GrammarClass> visitAtom(@NotNull ANTLRv4Parser.AtomContext ctx) {
-        if (ctx.terminal() != null) {
-            String atomName = ctx.getText();
+    public Grammar visitTerminal(@NotNull ANTLRv4Parser.TerminalContext ctx) {
+        String atomName = ctx.getText();
 
-            logger.debug("******* ANTLRv4 Atom detected");
-            logger.debug("******* ANTLRv4 Atom text: " + atomName);
+        logger.debug("******* ANTLRv4 Terminal detected");
+        logger.debug("******* ANTLRv4 Terminal text: " + atomName);
 
-            GrammarClass grammarSpec = new GrammarClass(atomName, currentParserRuleSpec, GrammarType.RULE_ATOM);
-            grammarObjects.add(grammarSpec);
+        GrammarClass grammarSpec;
+
+        if (currentAltList != null) {
+            grammarSpec = new GrammarClass(atomName, currentAltList, GrammarType.RULE_TERMINAL);
+            currentAltList.addChild(grammarSpec);
+        } else {
+            grammarSpec = new GrammarClass(atomName, currentlabeledAlt, GrammarType.RULE_TERMINAL);
+            currentlabeledAlt.addChild(grammarSpec);
         }
+        grammar.addEntry(GrammarType.RULE_TERMINAL, grammarSpec);
+
 
         visitChildren(ctx);
 
-        return grammarObjects;
+        return grammar;
     }
 }

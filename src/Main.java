@@ -6,11 +6,10 @@ import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
 import org.dgso.superoptimizer.ANTLRv4Visitor;
-import org.dgso.superoptimizer.GrammarClass;
+import org.dgso.superoptimizer.Grammar;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class Main {
     static Logger mainLogger;
@@ -42,9 +41,9 @@ public class Main {
         ANTLRv4Visitor av = new ANTLRv4Visitor();
 
         //start visiting parser tree
-        ArrayList<GrammarClass> results = (ArrayList<GrammarClass>) av.visit(tree);
+        Grammar results = (Grammar) av.visit(tree);
 
-        System.out.println(results);
+        System.out.println(results.getGrammarObjects());
 
         mainLogger.debug("Parsed grammar: " + tree.toStringTree(parser));
     }

@@ -10,9 +10,7 @@ expression
     ;
 
 primary
-    :   'variableA'
-    |   'variableB'
-    |   'null'
+    :   ('variableA'|'variableB'|'null')
     ;
 
 LOWER_CASE_CHARACTERS : [a-z]+ ;  // match lower-case identifiers
