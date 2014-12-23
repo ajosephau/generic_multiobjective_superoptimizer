@@ -1,4 +1,4 @@
-package org.dgso.superoptimizer;
+package org.dgso.programbuilder;
 
 import java.util.ArrayList;
 import java.util.TreeMap;

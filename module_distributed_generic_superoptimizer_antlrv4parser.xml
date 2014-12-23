@@ -20,7 +20,7 @@
       fork="true"
       failonerror="true"
       >
-      <arg line="-o ${dgso.antlrv4parser.output.dir} -no-listener -visitor -package org.dgso.antlrv4parser ${module.dgso.basedir}/conf/ANTLRv4Lexer.g4 ${module.dgso.basedir}/conf/ANTLRv4Parser.g4"/>
+      <arg line="-o ${dgso.antlrv4parser.output.dir} -no-listener -visitor -package org.dgso.antlrv4parser ${module.dgso.basedir}/conf/ANTLRv4Grammar/ANTLRv4Lexer.g4 ${module.dgso.basedir}/conf/ANTLRv4Grammar/ANTLRv4Parser.g4"/>
     </java>
   </target>
 </project>

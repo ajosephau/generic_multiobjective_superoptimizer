@@ -5,42 +5,67 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
-import org.dgso.superoptimizer.ANTLRv4Grammar;
-import org.dgso.superoptimizer.ANTLRv4Visitor;
-import org.dgso.superoptimizer.SuperoptimizerBuilder;
+import org.dgso.programbuilder.ANTLRv4Grammar;
+import org.dgso.programbuilder.ANTLRv4Visitor;
+import org.dgso.programbuilder.ProgramBuilder;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Main {
     private static Logger mainLogger;
+    private static String grammar_path;
+    private static int recursion_limit;
+    private static String startingRule;
 
-
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         String inputFile;
-        String startingRule;
 
         // setup logger
         mainLogger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
         // create a CharStream that reads from standard input
-        if (args.length != 2) {
-            mainLogger.error("dgso requires 2 arguments: the grammar file reference and start ANTLRv4 rule");
+        if (args.length != 1) {
+            mainLogger.error("dgso requires 1 argument: the path to the configuration file.");
             System.exit(-1);
         }
 
         inputFile = args[0];
-        startingRule = args[1];
 
+        try {
+            setupParameters(inputFile);
+        } catch (IOException e) {
+            mainLogger.error(e.getMessage());
+        }
+
+        ArrayList<String> statements = getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
+
+        System.out.println(statements);
+    }
+
+    public static ArrayList<String> getAllStatementsFromGrammar(String inputFile, String startingRule, int recursionLimit) {
         InputStream is = System.in;
-        if (inputFile != null) {
-            is = new FileInputStream(inputFile);
+        try {
+            if (inputFile != null) {
+                is = new FileInputStream(inputFile);
+            }
+        } catch (FileNotFoundException e) {
+            mainLogger.error(e.getMessage());
         }
 
         // setup lexer and parser
-        ANTLRInputStream input = new ANTLRInputStream(is);
+        ANTLRInputStream input = null;
+        try {
+            input = new ANTLRInputStream(is);
+        } catch (IOException e) {
+            mainLogger.error(e.getMessage());
+        }
+
         ANTLRv4Lexer lexer = new ANTLRv4Lexer(input); // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); // create a parser that feeds off the tokens buffer
         ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
@@ -52,8 +77,18 @@ public class Main {
         //start visiting parser tree
         ANTLRv4Grammar grammar = (ANTLRv4Grammar) av.visit(tree);
 
-        SuperoptimizerBuilder sb = new SuperoptimizerBuilder();
-        ArrayList<String> superoptimizedStatements = sb.generateSuperoptimizedStatements(startingRule, grammar);
-        System.out.println("-----" + superoptimizedStatements);
+        ProgramBuilder pb = new ProgramBuilder();
+        return pb.generateAllStatementsFromGrammar(startingRule, grammar, recursionLimit);
+    }
+
+    public static void setupParameters(String pathToConfigFile) throws IOException {
+        Properties properties = new Properties();
+        InputStream is = new FileInputStream(pathToConfigFile);
+        properties.load(is);
+
+        grammar_path = properties.getProperty("grammar_path");
+        recursion_limit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
+        startingRule = properties.getProperty("starting_rule");
+
     }
 }

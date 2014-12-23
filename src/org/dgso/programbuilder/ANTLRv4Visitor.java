@@ -1,4 +1,4 @@
-package org.dgso.superoptimizer;
+package org.dgso.programbuilder;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.apache.log4j.Logger;
@@ -85,7 +85,6 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
         currentParserRuleSpec.addChild(currentlabeledAlt);
         grammar.addEntry(ANTLRv4GrammarType.LABELED_ALT, currentParserRuleSpec);
 
-        System.out.println(ctx.alternative());
         visitChildren(ctx);
 
         return grammar;

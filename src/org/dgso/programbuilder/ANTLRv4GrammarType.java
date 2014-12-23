@@ -1,4 +1,4 @@
-package org.dgso.superoptimizer;
+package org.dgso.programbuilder;
 
 public enum ANTLRv4GrammarType {
     ANTLR_GRAMMAR_SPEC,

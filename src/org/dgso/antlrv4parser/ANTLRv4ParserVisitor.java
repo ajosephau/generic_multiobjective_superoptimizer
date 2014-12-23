@@ -1,4 +1,3 @@
-// Generated from /Users/anthonyjoseph/Dropbox/Devel/SuperoptimizerDevel/distributed_generic_superoptimizer_mac/conf/ANTLRv4Parser.g4 by ANTLR 4.4
 package org.dgso.antlrv4parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
