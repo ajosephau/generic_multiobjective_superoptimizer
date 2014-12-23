@@ -1,6 +1,6 @@
 package org.dgso.superoptimizer;
 
-public enum GrammarType {
+public enum ANTLRv4GrammarType {
     ANTLR_GRAMMAR_SPEC,
     PARSER_RULE_SPEC,
     ALT_LIST,

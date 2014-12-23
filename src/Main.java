@@ -5,26 +5,35 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
+import org.dgso.superoptimizer.ANTLRv4Grammar;
 import org.dgso.superoptimizer.ANTLRv4Visitor;
-import org.dgso.superoptimizer.Grammar;
+import org.dgso.superoptimizer.SuperoptimizerBuilder;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Main {
-    static Logger mainLogger;
+    private static Logger mainLogger;
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception{
+        String inputFile;
+        String startingRule;
+
         // setup logger
         mainLogger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
         // create a CharStream that reads from standard input
-        String inputFile = null;
-        if (args.length > 0) {
-            inputFile = args[0];
+        if (args.length != 2) {
+            mainLogger.error("dgso requires 2 arguments: the grammar file reference and start ANTLRv4 rule");
+            System.exit(-1);
         }
+
+        inputFile = args[0];
+        startingRule = args[1];
+
         InputStream is = System.in;
         if (inputFile != null) {
             is = new FileInputStream(inputFile);
@@ -41,10 +50,10 @@ public class Main {
         ANTLRv4Visitor av = new ANTLRv4Visitor();
 
         //start visiting parser tree
-        Grammar results = (Grammar) av.visit(tree);
+        ANTLRv4Grammar grammar = (ANTLRv4Grammar) av.visit(tree);
 
-        System.out.println(results.getGrammarObjects());
-
-        mainLogger.debug("Parsed grammar: " + tree.toStringTree(parser));
+        SuperoptimizerBuilder sb = new SuperoptimizerBuilder();
+        ArrayList<String> superoptimizedStatements = sb.generateSuperoptimizedStatements(startingRule, grammar);
+        System.out.println("-----" + superoptimizedStatements);
     }
 }
