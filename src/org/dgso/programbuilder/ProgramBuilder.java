@@ -1,18 +1,26 @@
 package org.dgso.programbuilder;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.dgso.antlrv4parser.ANTLRv4Lexer;
+import org.dgso.antlrv4parser.ANTLRv4Parser;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class ProgramBuilder {
 
     private static int RECURSION_LIMIT = 4;
-    private Logger programBuilderLogger;//recursion depth?
+    private static Logger programBuilderLogger = Logger.getLogger(ProgramBuilder.class);
 
     public ProgramBuilder() {
-        programBuilderLogger = Logger.getLogger(ProgramBuilder.class);
         BasicConfigurator.configure();
     }
 
@@ -34,6 +42,40 @@ public class ProgramBuilder {
         return null;
     }
 
+    public static ArrayList<String> getAllStatementsFromGrammar(String inputFile, String startingRule, int recursionLimit) {
+        InputStream is = System.in;
+        try {
+            if (inputFile != null) {
+                is = new FileInputStream(inputFile);
+            }
+        } catch (FileNotFoundException e) {
+            programBuilderLogger.error(e.getMessage());
+        }
+
+        // setup lexer and parser
+        ANTLRInputStream input = null;
+        try {
+            input = new ANTLRInputStream(is);
+        } catch (IOException e) {
+            programBuilderLogger.error(e.getMessage());
+        }
+
+        ANTLRv4Lexer lexer = new ANTLRv4Lexer(input); // create a buffer of tokens pulled from the lexer
+        CommonTokenStream tokens = new CommonTokenStream(lexer); // create a parser that feeds off the tokens buffer
+        ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
+
+        //start parsing the "grammarSpec" rule in the ANTLRv4 parser/lexer file
+        ParseTree tree = parser.grammarSpec();
+        ANTLRv4Visitor av = new ANTLRv4Visitor();
+
+        //start visiting parser tree
+        ANTLRv4Grammar grammar = (ANTLRv4Grammar) av.visit(tree);
+
+        ProgramBuilder pb = new ProgramBuilder();
+        return pb.generateAllStatementsFromGrammar(startingRule, grammar, recursionLimit);
+    }
+
+
     public ArrayList<String> generateAllStatementsFromGrammar(String startingRule, ANTLRv4Grammar grammar, int recursionLimit) {
         ANTLRv4GrammarClass parserRuleSpec = getParserRuleSpec(startingRule, grammar);
 
@@ -54,16 +96,15 @@ public class ProgramBuilder {
             return returnList;
         }
 
-        if(grammarObject == null) {
+        if (grammarObject == null) {
             programBuilderLogger.error("An error in the grammar file was detected.");
             System.exit(-1);
         }
         if (grammarObject.getType() == ANTLRv4GrammarType.PARSER_RULE_SPEC) {
             String leftHandSide;
-            if(recursion_count > 0) {
+            if (recursion_count > 0) {
                 leftHandSide = "";
-            }
-            else {
+            } else {
                 leftHandSide = grammarObject.getIdentifier() + " :";
             }
 
