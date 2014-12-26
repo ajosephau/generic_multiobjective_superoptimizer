@@ -1,6 +1,8 @@
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.programbuilder.ProgramBuilder;
+import org.dgso.testrunner.TestBuilder;
+import org.dgso.testrunner.TestBuilderFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,16 +11,19 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class Main {
-    private static Logger mainLogger;
+    private static Logger mainLogger = Logger.getLogger(Main.class);
+
     private static String grammar_path;
     private static int recursion_limit;
     private static String startingRule;
+    private static String templateFolder;
+    private static String templateFile;
+    private static int instanceCount;
 
     public static void main(String[] args) {
         String inputFile;
 
         // setup logger
-        mainLogger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
         // create a CharStream that reads from standard input
@@ -31,13 +36,19 @@ public class Main {
 
         try {
             setupParameters(inputFile);
+
+            ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
+
+            TestBuilderFactory.createTestBuilders(templateFolder, templateFile, instanceCount);
+
+            TestBuilder tb = TestBuilderFactory.getTestBuilder(1);
+
+            //test code
+            tb.buildProgram("asdfasdfasdfasdf");
+            System.out.println(statements);
         } catch (IOException e) {
             mainLogger.error(e.getMessage());
         }
-
-        ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
-
-        System.out.println(statements);
     }
 
     public static void setupParameters(String pathToConfigFile) throws IOException {
@@ -48,6 +59,8 @@ public class Main {
         grammar_path = properties.getProperty("grammar_path");
         recursion_limit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
-
+        templateFolder = properties.getProperty("template_folder");
+        templateFile = properties.getProperty("template_file");
+        instanceCount = Integer.parseInt(properties.getProperty("instance_count"));
     }
 }

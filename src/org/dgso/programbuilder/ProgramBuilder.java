@@ -114,14 +114,14 @@ public class ProgramBuilder {
             ArrayList<ANTLRv4GrammarClass> childObjects = grammarObject.getChildren();
             for (ANTLRv4GrammarClass labeled_alt : childObjects) {
                 // will always get a parser rule spec, so sub objects will be labeled_alt's
-                programBuilderLogger.info("Recursion ID " + recursion_count + " Labeled Alternative Rule " + (childObjects.indexOf(labeled_alt) + 1) + " of " + childObjects.size());
+                programBuilderLogger.debug("Recursion ID " + recursion_count + " Labeled Alternative Rule " + (childObjects.indexOf(labeled_alt) + 1) + " of " + childObjects.size());
 
                 labeled_alts.clear();
                 labeled_alts.add(leftHandSide);
 
                 ArrayList<ANTLRv4GrammarClass> subChildObjects = labeled_alt.getChildren();
                 for (ANTLRv4GrammarClass subGrammarObject : subChildObjects) {
-                    programBuilderLogger.info("Recursion ID " + recursion_count + " Labeled Alternative Children " + (subChildObjects.indexOf(subGrammarObject) + 1) + " of " + subChildObjects.size());
+                    programBuilderLogger.debug("Recursion ID " + recursion_count + " Labeled Alternative Children " + (subChildObjects.indexOf(subGrammarObject) + 1) + " of " + subChildObjects.size());
 
 
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_REFERENCE) {
