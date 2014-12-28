@@ -3,7 +3,6 @@ package org.dgso.programbuilder;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.antlrv4parser.ANTLRv4Lexer;
 import org.dgso.antlrv4parser.ANTLRv4Parser;
@@ -21,7 +20,6 @@ public class ProgramBuilder {
     private static Logger programBuilderLogger = Logger.getLogger(ProgramBuilder.class);
 
     public ProgramBuilder() {
-        BasicConfigurator.configure();
     }
 
     public static ANTLRv4GrammarClass getParserRuleSpec(String startingRule, ANTLRv4Grammar grammar) {

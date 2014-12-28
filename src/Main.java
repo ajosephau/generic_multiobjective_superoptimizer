@@ -18,6 +18,8 @@ public class Main {
     private static String startingRule;
     private static String templateFolder;
     private static String templateFile;
+    private static String outputFolder;
+    private static String outputFile;
     private static int instanceCount;
 
     public static void main(String[] args) {
@@ -39,12 +41,14 @@ public class Main {
 
             ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
 
-            TestBuilderFactory.createTestBuilders(templateFolder, templateFile, instanceCount);
+            TestBuilderFactory.createTestBuilders(templateFolder, templateFile, outputFolder, outputFile, instanceCount);
 
             TestBuilder tb = TestBuilderFactory.getTestBuilder(1);
 
-            //test code
+            //test code - to be substituted with entries in "statements" arraylist
             tb.buildProgram("asdfasdfasdfasdf");
+
+            TestBuilderFactory.cleanupTestOutputFolder();
             System.out.println(statements);
         } catch (IOException e) {
             mainLogger.error(e.getMessage());
@@ -61,6 +65,8 @@ public class Main {
         startingRule = properties.getProperty("starting_rule");
         templateFolder = properties.getProperty("template_folder");
         templateFile = properties.getProperty("template_file");
+        outputFolder = properties.getProperty("output_folder");
+        outputFile = properties.getProperty("output_file");
         instanceCount = Integer.parseInt(properties.getProperty("instance_count"));
     }
 }
