@@ -1,8 +1,8 @@
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.programbuilder.ProgramBuilder;
-import org.dgso.testrunner.TestBuilder;
-import org.dgso.testrunner.TestBuilderFactory;
+import org.dgso.testrunner.TestRunner;
+import org.dgso.testrunner.TestRunnerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,6 +20,8 @@ public class Main {
     private static String templateFile;
     private static String outputFolder;
     private static String outputFile;
+    private static String testScriptPath;
+    private static int timeout;
     private static int instanceCount;
 
     public static void main(String[] args) {
@@ -41,14 +43,15 @@ public class Main {
 
             ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
 
-            TestBuilderFactory.createTestBuilders(templateFolder, templateFile, outputFolder, outputFile, instanceCount);
+            TestRunnerFactory.createTestBuilders(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, instanceCount);
 
-            TestBuilder tb = TestBuilderFactory.getTestBuilder(1);
+            TestRunner tr = TestRunnerFactory.getTestBuilder(1);
 
             //test code - to be substituted with entries in "statements" arraylist
-            tb.buildProgram("asdfasdfasdfasdf");
+            tr.buildProgram("asdfasdfasdfasdf");
+            tr.runProgram();
 
-            TestBuilderFactory.cleanupTestOutputFolder();
+            TestRunnerFactory.cleanupTestOutputFolder();
             System.out.println(statements);
         } catch (IOException e) {
             mainLogger.error(e.getMessage());
@@ -67,6 +70,8 @@ public class Main {
         templateFile = properties.getProperty("template_file");
         outputFolder = properties.getProperty("output_folder");
         outputFile = properties.getProperty("output_file");
+        testScriptPath = properties.getProperty("test_script_path");
+        timeout = Integer.parseInt(properties.getProperty("timeout"));
         instanceCount = Integer.parseInt(properties.getProperty("instance_count"));
     }
 }

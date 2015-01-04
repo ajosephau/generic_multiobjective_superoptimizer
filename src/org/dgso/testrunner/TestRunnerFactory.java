@@ -7,13 +7,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TestBuilderFactory {
-    private static ArrayList<TestBuilder> testBuilders;
-    private static Logger tbfLogger = Logger.getLogger(TestBuilderFactory.class);
+public class TestRunnerFactory {
+    private static ArrayList<TestRunner> testRunners;
+    private static Logger tbfLogger = Logger.getLogger(TestRunnerFactory.class);
     private static String testOutputFolder;
 
-    public static void createTestBuilders(String templateFolder, String templateFile, String outputFolder, String outputFile, int instanceCount) {
-        testBuilders = new ArrayList<TestBuilder>(instanceCount);
+    public static void createTestBuilders(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+        testRunners = new ArrayList<TestRunner>(instanceCount);
 
         setTestOutputFolder(outputFolder);
 
@@ -22,14 +22,14 @@ public class TestBuilderFactory {
         tbfLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
 
         for (int i = 0; i < instanceCount; i++) {
-            TestBuilder tb = new TestBuilder(templateFolder, templateFile, outputFolder, outputFile, i);
-            testBuilders.add(tb);
+            TestRunner tb = new TestRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
+            testRunners.add(tb);
         }
     }
 
-    public static TestBuilder getTestBuilder(int instanceID) {
-        if (instanceID < testBuilders.size() && instanceID > 0) {
-            return testBuilders.get(instanceID);
+    public static TestRunner getTestBuilder(int instanceID) {
+        if (instanceID < testRunners.size() && instanceID > 0) {
+            return testRunners.get(instanceID);
         } else {
             return null;
         }
@@ -42,7 +42,7 @@ public class TestBuilderFactory {
         } catch (IOException e) {
             tbfLogger.error(e);
         }
-
+        tbfLogger.debug("Result from deleting directory: " + getTestOutputFolder() + ": true");
     }
 
     public static String getTestOutputFolder() {
@@ -50,6 +50,6 @@ public class TestBuilderFactory {
     }
 
     public static void setTestOutputFolder(String testOutputFolder) {
-        TestBuilderFactory.testOutputFolder = testOutputFolder;
+        TestRunnerFactory.testOutputFolder = testOutputFolder;
     }
 }

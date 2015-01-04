@@ -32,8 +32,8 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     public ANTLRv4Grammar visitGrammarSpec(@NotNull ANTLRv4Parser.GrammarSpecContext ctx) {
         String currentGrammarSpecName = ctx.id().getText();
 
-        logger.debug("* ANTLRv4 ANTLRv4Grammar Spec detected");
-        logger.debug("* ANTLRv4 ANTLRv4Grammar Spec text: " + currentGrammarSpecName);
+        logger.debug("ANTLRv4 ANTLRv4Grammar Spec detected");
+        logger.debug("ANTLRv4 ANTLRv4Grammar Spec text: " + currentGrammarSpecName);
 
         currentGrammarSpec = new ANTLRv4GrammarClass(currentGrammarSpecName, null, ANTLRv4GrammarType.ANTLR_GRAMMAR_SPEC);
         grammar.addEntry(ANTLRv4GrammarType.ANTLR_GRAMMAR_SPEC, currentGrammarSpec);
@@ -53,10 +53,10 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     public ANTLRv4Grammar visitParserRuleSpec(@NotNull ANTLRv4Parser.ParserRuleSpecContext ctx) {
         String currentParserRuleSpecName = ctx.getStart().getText();
 
-        logger.debug("**** ANTLRv4 Parser Rule Spec detected");
-        logger.debug("**** ANTLRv4 Parser Rule Spec text: " + ctx.getText());
-        logger.debug("**** ANTLRv4 Parser Rule Spec RHS: " + ctx.ruleBlock().getText());
-        logger.debug("**** ANTLRv4 Parser Rule Spec LHS: " + ctx.getStart().getText());
+        logger.debug("ANTLRv4 Parser Rule Spec detected");
+        logger.debug("ANTLRv4 Parser Rule Spec text: " + ctx.getText());
+        logger.debug("ANTLRv4 Parser Rule Spec RHS: " + ctx.ruleBlock().getText());
+        logger.debug("ANTLRv4 Parser Rule Spec LHS: " + ctx.getStart().getText());
 
         currentParserRuleSpec = new ANTLRv4GrammarClass(currentParserRuleSpecName, currentGrammarSpec, ANTLRv4GrammarType.PARSER_RULE_SPEC);
         currentGrammarSpec.addChild(currentParserRuleSpec);
@@ -78,8 +78,8 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
         String labeledAltName = ctx.getText();
         currentAltList = null;
 
-        logger.debug("******* ANTLRv4 LabeledAlt detected");
-        logger.debug("******* ANTLRv4 LabeledAlt text: " + labeledAltName);
+        logger.debug("ANTLRv4 LabeledAlt detected");
+        logger.debug("ANTLRv4 LabeledAlt text: " + labeledAltName);
 
         currentlabeledAlt = new ANTLRv4GrammarClass(labeledAltName, currentParserRuleSpec, ANTLRv4GrammarType.LABELED_ALT);
         currentParserRuleSpec.addChild(currentlabeledAlt);
@@ -99,8 +99,8 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     public ANTLRv4Grammar visitAltList(@NotNull ANTLRv4Parser.AltListContext ctx) {
         String altListName = ctx.getText();
 
-        logger.debug("****** ANTLRv4 AltList detected");
-        logger.debug("****** ANTLRv4 AltList text: " + altListName);
+        logger.debug("ANTLRv4 AltList detected");
+        logger.debug("ANTLRv4 AltList text: " + altListName);
 
         currentAltList = new ANTLRv4GrammarClass(altListName, currentParserRuleSpec, ANTLRv4GrammarType.ALT_LIST);
         currentlabeledAlt.addChild(currentAltList);
@@ -122,8 +122,8 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     public ANTLRv4Grammar visitRuleref(@NotNull ANTLRv4Parser.RulerefContext ctx) {
         String ruleRefName = ctx.getText();
 
-        logger.debug("****** ANTLRv4 Rule Reference detected");
-        logger.debug("****** ANTLRv4 Rule Reference text: " + ruleRefName);
+        logger.debug("ANTLRv4 Rule Reference detected");
+        logger.debug("ANTLRv4 Rule Reference text: " + ruleRefName);
 
         ANTLRv4GrammarClass grammarSpec = new ANTLRv4GrammarClass(ruleRefName, currentParserRuleSpec, ANTLRv4GrammarType.RULE_REFERENCE);
         currentlabeledAlt.addChild(grammarSpec);
@@ -143,8 +143,8 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     public ANTLRv4Grammar visitTerminal(@NotNull ANTLRv4Parser.TerminalContext ctx) {
         String atomName = ctx.getText();
 
-        logger.debug("******* ANTLRv4 Terminal detected");
-        logger.debug("******* ANTLRv4 Terminal text: " + atomName);
+        logger.debug("ANTLRv4 Terminal detected");
+        logger.debug("ANTLRv4 Terminal text: " + atomName);
 
         ANTLRv4GrammarClass grammarSpec;
 

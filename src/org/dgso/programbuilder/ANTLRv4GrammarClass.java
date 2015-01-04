@@ -19,6 +19,11 @@ public class ANTLRv4GrammarClass {
         return "{" + this.getIdentifier() + ", type = " + this.getType() + ", parent = " + this.getParent() + "}";
     }
 
+    public String getDescriptiveText() {
+        return this.getIdentifier() + ", type = " + this.getType();
+    }
+
+
     public void addChild(ANTLRv4GrammarClass grammarClass) {
         getChildren().add(grammarClass);
     }
