@@ -137,26 +137,7 @@ public class LeJOSBenchmark {
 		printvalue("booleanValue", booleanValue);
 	}
 
-	private static int testFunction(int reading, int checkValue,
-			int normalSpeed, int zeroSpeed, boolean booleanValue) {
+	private static int testFunction( int reading, int checkValue,
+									 int normalSpeed, int zeroSpeed, boolean booleanValue )
+	{
 		int returnValue = 0;
-
-		if (reading > checkValue) {
-			returnValue = normalSpeed;
-		} else {
-			returnValue = zeroSpeed;
-		}
-
-		// <SATE_STATEMENTS>
-
-		return returnValue;
-	}
-
-	private static void printvalue(String desc, int value) {
-		LCD.drawString(desc + ": " + value, 0, 0);
-	}
-
-	private static void printvalue(String desc, boolean value) {
-		LCD.drawString(desc + ": " + value, 0, 0);
-	}
-}
