@@ -7,7 +7,7 @@ public class ANTLRv4Grammar {
     private TreeMap<ANTLRv4GrammarType, ArrayList<ANTLRv4GrammarClass>> grammarObjects;
 
     public ANTLRv4Grammar() {
-        setGrammarObjects(new TreeMap<ANTLRv4GrammarType, ArrayList<ANTLRv4GrammarClass>>());
+        setGrammarObjects(new TreeMap<>());
     }
 
     public void addEntry(ANTLRv4GrammarType grammarType, ANTLRv4GrammarClass grammarClass) {
@@ -16,7 +16,7 @@ public class ANTLRv4Grammar {
             value = grammarObjects.get(grammarType);
         }
         else {
-            value = new ArrayList<ANTLRv4GrammarClass>();
+            value = new ArrayList<>();
             grammarObjects.put(grammarType, value);
         }
         value.add(grammarClass);

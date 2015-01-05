@@ -1,4 +1,4 @@
-package org.dgso.testrunner;
+package org.dgso.processrunner;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -6,14 +6,15 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
-public class TestRunnerFactory {
+public class ProcessRunnerFactory {
     private static ArrayList<TestRunner> testRunners;
-    private static Logger tbfLogger = Logger.getLogger(TestRunnerFactory.class);
+    private static Logger tbfLogger = Logger.getLogger(ProcessRunnerFactory.class);
     private static String testOutputFolder;
 
-    public static void createTestBuilders(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
-        testRunners = new ArrayList<TestRunner>(instanceCount);
+    public static void createProcessBuilders(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+        testRunners = new ArrayList<>(instanceCount);
 
         setTestOutputFolder(outputFolder);
 
@@ -27,12 +28,20 @@ public class TestRunnerFactory {
         }
     }
 
-    public static TestRunner getTestBuilder(int instanceID) {
-        if (instanceID < testRunners.size() && instanceID > 0) {
-            return testRunners.get(instanceID);
-        } else {
-            return null;
+    public static void assignStatementsToTestRunners(ArrayList<String> statements) {
+        int numTestRunners = testRunners.size();
+        for (int i = 0; i < statements.size(); i++) {
+            testRunners.get(i % numTestRunners).addStatementToStatements(statements.get(i));
         }
+    }
+
+    public static TreeMap<String, String> runAllProcessesInSerial() {
+        TreeMap<String, String> results = new TreeMap<>();
+        for (TestRunner tr : testRunners) {
+            results.putAll(tr.runProcesses());
+        }
+
+        return results;
     }
 
     public static void cleanupTestOutputFolder() {
@@ -50,6 +59,6 @@ public class TestRunnerFactory {
     }
 
     public static void setTestOutputFolder(String testOutputFolder) {
-        TestRunnerFactory.testOutputFolder = testOutputFolder;
+        ProcessRunnerFactory.testOutputFolder = testOutputFolder;
     }
 }

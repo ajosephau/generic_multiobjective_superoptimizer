@@ -1,4 +1,4 @@
-package org.dgso.testrunner;
+package org.dgso.processrunner;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -6,26 +6,31 @@ import freemarker.template.TemplateException;
 import org.apache.commons.exec.*;
 import org.apache.log4j.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-public class TestRunner {
-    private static Logger trLogger = Logger.getLogger(TestRunner.class);
+public abstract class ProcessRunner {
+    private static Logger trLogger = Logger.getLogger(ProcessRunner.class);
     private final String TEST_FOLDER_PREFIX = "output_";
     private String templateFile;
     private String templateFolder;
     private String outputFolder;
     private String outputFile;
     private String testStringPath;
+    private String processInput;
+    private String processOutput;
+    private ArrayList<String> statements = new ArrayList<>();
     private int timeout;
     private int builderID;
     private Template programTemplate;
 
-
-    protected TestRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, int timeout, int builderID) {
+    protected ProcessRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, int timeout, int builderID) {
         this.setTemplateFolder(templateFolder);
         this.setTemplateFile(templateFile);
         this.setBuilderID(builderID);
@@ -44,17 +49,11 @@ public class TestRunner {
         }
     }
 
-    public static Logger getTrLogger() {
-        return trLogger;
-    }
-
-    public static void setTrLogger(Logger trLogger) {
-        TestRunner.trLogger = trLogger;
-    }
-
     public void buildProgram(String statement) {
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("statement", statement);
+        Map<String, String> data = new HashMap<>();
+        processInput = statement;
+
+        data.put("statement", processInput);
 
         try {
             File directory = new File(getProgramOutputFolder());
@@ -66,44 +65,58 @@ public class TestRunner {
             programTemplate.process(data, file);
             file.flush();
             file.close();
-        } catch (TemplateException e) {
-            trLogger.error(e);
-        } catch (IOException e) {
+        } catch (TemplateException | IOException e) {
             trLogger.error(e);
         }
     }
 
-    public void runProgram() {
+    public String runProgram() {
         CommandLine cmdLine = new CommandLine(getTestStringPath());
         cmdLine.addArgument(getProgramOutputFile());
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-
         ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         Executor executor = new DefaultExecutor();
-        executor.setExitValue(0);
-        executor.setWatchdog(watchdog);
 
         try {
-            executor.execute(cmdLine, resultHandler);
+            executor.setExitValue(0);
+            executor.setWatchdog(watchdog);
+            executor.setStreamHandler(new PumpStreamHandler(out));
 
+            executor.execute(cmdLine, resultHandler);
             resultHandler.waitFor();
+
             int exitValue = resultHandler.getExitValue();
+
             trLogger.debug("Exit value: " + exitValue);
+
             Exception executeException = resultHandler.getException();
             if (executeException != null) {
                 trLogger.error(executeException);
             }
-        } catch (IOException e) {
-            trLogger.error(e);
-        } catch (InterruptedException e) {
+
+            processOutput = removeNewlines(out.toString());
+
+        } catch (IOException | InterruptedException e) {
             trLogger.error(e);
         }
+
+        trLogger.debug("Program: \"" + processInput + "\" obtained result: \"" + processOutput + "\"");
+
+        return processOutput;
     }
 
-    public void setTemplateFile(String templateFile) {
-        this.templateFile = templateFile;
+    public abstract TreeMap<String, String> runProcesses();
+
+    public String removeNewlines(String inputString) {
+        return inputString.replace("\n", "").replace("\r", "");
     }
+
+    public void addStatementToStatements(String statement) {
+        getStatements().add(statement);
+    }
+
     public int getBuilderID() {
         return builderID;
     }
@@ -124,6 +137,10 @@ public class TestRunner {
         return templateFile;
     }
 
+    public void setTemplateFile(String templateFile) {
+        this.templateFile = templateFile;
+    }
+
     public String getTEST_FOLDER_PREFIX() {
         return TEST_FOLDER_PREFIX + this.getBuilderID();
     }
@@ -132,16 +149,16 @@ public class TestRunner {
         return outputFolder;
     }
 
+    public void setOutputFolder(String outputFolder) {
+        this.outputFolder = outputFolder;
+    }
+
     public String getProgramOutputFolder() {
         return getOutputFolder() + "/" + getTEST_FOLDER_PREFIX();
     }
 
     public String getProgramOutputFile() {
         return getProgramOutputFolder() + "/" + getOutputFile();
-    }
-
-    public void setOutputFolder(String outputFolder) {
-        this.outputFolder = outputFolder;
     }
 
     public String getOutputFile() {
@@ -160,19 +177,11 @@ public class TestRunner {
         this.testStringPath = testStringPath;
     }
 
-    public int getTimeout() {
-        return timeout;
-    }
-
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
 
-    public Template getProgramTemplate() {
-        return programTemplate;
-    }
-
-    public void setProgramTemplate(Template programTemplate) {
-        this.programTemplate = programTemplate;
+    public ArrayList<String> getStatements() {
+        return statements;
     }
 }
