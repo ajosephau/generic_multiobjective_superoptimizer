@@ -9,56 +9,69 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class ProcessRunnerFactory {
-    private static ArrayList<TestRunner> testRunners;
+    private static ArrayList<ProcessRunner> processRunners;
     private static Logger tbfLogger = Logger.getLogger(ProcessRunnerFactory.class);
-    private static String testOutputFolder;
+    private static String processOutputFolder;
 
-    public static void createProcessBuilders(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
-        testRunners = new ArrayList<>(instanceCount);
+    public void createTestRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+        createProcessRunners(outputFolder);
 
-        setTestOutputFolder(outputFolder);
+        processRunners = new ArrayList<>(instanceCount);
+        for (int i = 0; i < instanceCount; i++) {
+            TestRunner tr = new TestRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
+            processRunners.add(tr);
+        }
+    }
 
-        File directory = new File(getTestOutputFolder());
+    public void createScenarioRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+        createProcessRunners(outputFolder);
+
+        processRunners = new ArrayList<>(instanceCount);
+        for (int i = 0; i < instanceCount; i++) {
+            ScenarioRunner sr = new ScenarioRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
+            processRunners.add(sr);
+        }
+    }
+
+    private void createProcessRunners(String outputFolder) {
+        setProcessOutputFolder(outputFolder);
+
+        File directory = new File(getProcessOutputFolder());
         boolean mkdirResult = directory.mkdir();
         tbfLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
-
-        for (int i = 0; i < instanceCount; i++) {
-            TestRunner tb = new TestRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
-            testRunners.add(tb);
-        }
     }
 
-    public static void assignStatementsToTestRunners(ArrayList<String> statements) {
-        int numTestRunners = testRunners.size();
+    public void assignStatementsToProcessRunners(ArrayList<String> statements) {
+        int numProcessRunners = processRunners.size();
         for (int i = 0; i < statements.size(); i++) {
-            testRunners.get(i % numTestRunners).addStatementToStatements(statements.get(i));
+            processRunners.get(i % numProcessRunners).addStatementToStatements(statements.get(i));
         }
     }
 
-    public static TreeMap<String, String> runAllProcessesInSerial() {
+    public TreeMap<String, String> runAllProcessesInSerial() {
         TreeMap<String, String> results = new TreeMap<>();
-        for (TestRunner tr : testRunners) {
-            results.putAll(tr.runProcesses());
+        for (ProcessRunner pr : processRunners) {
+            results.putAll(pr.runProcesses());
         }
 
         return results;
     }
 
-    public static void cleanupTestOutputFolder() {
-        File directory = new File(getTestOutputFolder());
+    public void cleanupProcessOutputFolder() {
+        File directory = new File(getProcessOutputFolder());
         try {
             FileUtils.deleteDirectory(directory);
         } catch (IOException e) {
             tbfLogger.error(e);
         }
-        tbfLogger.debug("Result from deleting directory: " + getTestOutputFolder() + ": true");
+        tbfLogger.debug("Result from deleting directory: " + getProcessOutputFolder() + ": true");
     }
 
-    public static String getTestOutputFolder() {
-        return testOutputFolder;
+    public String getProcessOutputFolder() {
+        return processOutputFolder;
     }
 
-    public static void setTestOutputFolder(String testOutputFolder) {
-        ProcessRunnerFactory.testOutputFolder = testOutputFolder;
+    public void setProcessOutputFolder(String processOutputFolder) {
+        ProcessRunnerFactory.processOutputFolder = processOutputFolder;
     }
 }

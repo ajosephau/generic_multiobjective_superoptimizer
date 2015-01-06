@@ -1,6 +1,7 @@
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.processrunner.ProcessRunnerFactory;
+import org.dgso.processrunner.ScenarioRunner;
 import org.dgso.programbuilder.ProgramBuilder;
 
 import java.io.FileInputStream;
@@ -14,15 +15,22 @@ public class Main {
     private static Logger mainLogger = Logger.getLogger(Main.class);
 
     private static String grammar_path;
-    private static int recursion_limit;
     private static String startingRule;
     private static String testTemplateFolder;
     private static String testTemplateFile;
     private static String testOutputFolder;
     private static String testOutputFile;
     private static String testScriptPath;
+    private static String scenarioTemplateFolder;
+    private static String scenarioTemplateFile;
+    private static String scenarioOutputFolder;
+    private static String scenarioOutputFile;
+    private static String scenarioScriptPath;
+
+    private static int testInstanceCount;
+    private static int scenarioInstanceCount;
+    private static int recursionLimit;
     private static int timeout;
-    private static int instanceCount;
 
     public static void main(String[] args) {
         String inputFile;
@@ -38,19 +46,30 @@ public class Main {
 
         inputFile = args[0];
 
+        runAsSingleProcessStandalone(inputFile);
+    }
+
+    public static void runAsSingleProcessStandalone(String inputFile) {
         try {
             setupParameters(inputFile);
 
-            ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursion_limit);
+            ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursionLimit);
 
-            ProcessRunnerFactory.createProcessBuilders(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, timeout, instanceCount);
+            ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
+            testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, timeout, testInstanceCount);
+            testRunners.assignStatementsToProcessRunners(statements);
+            TreeMap<String, String> testResults = testRunners.runAllProcessesInSerial();
+            testRunners.cleanupProcessOutputFolder();
 
-            ProcessRunnerFactory.assignStatementsToTestRunners(statements);
+            ArrayList<String> scenarioStatements = new ArrayList<>(testResults.keySet());
 
-            TreeMap<String, String> results = ProcessRunnerFactory.runAllProcessesInSerial();
+            ProcessRunnerFactory scenarioRunners = new ProcessRunnerFactory();
+            scenarioRunners.createScenarioRunners(scenarioTemplateFolder, scenarioTemplateFile, scenarioOutputFolder, scenarioOutputFile, scenarioScriptPath, timeout, scenarioInstanceCount);
+            scenarioRunners.assignStatementsToProcessRunners(scenarioStatements);
+            TreeMap<String, String> results = scenarioRunners.runAllProcessesInSerial();
+            scenarioRunners.cleanupProcessOutputFolder();
 
-            ProcessRunnerFactory.cleanupTestOutputFolder();
-            System.out.println(results);
+            System.out.println(ScenarioRunner.formatResults(results));
         } catch (IOException e) {
             mainLogger.error(e.getMessage());
         }
@@ -62,14 +81,21 @@ public class Main {
         properties.load(is);
 
         grammar_path = properties.getProperty("grammar_path");
-        recursion_limit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
+        recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
         testTemplateFolder = properties.getProperty("test_template_folder");
         testTemplateFile = properties.getProperty("test_template_file");
         testOutputFolder = properties.getProperty("test_output_folder");
         testOutputFile = properties.getProperty("test_output_file");
         testScriptPath = properties.getProperty("test_script_path");
+        scenarioTemplateFolder = properties.getProperty("scenario_template_folder");
+        scenarioTemplateFile = properties.getProperty("scenario_template_file");
+        scenarioOutputFolder = properties.getProperty("scenario_output_folder");
+        scenarioOutputFile = properties.getProperty("scenario_output_file");
+        scenarioScriptPath = properties.getProperty("scenario_script_path");
+
         timeout = Integer.parseInt(properties.getProperty("timeout"));
-        instanceCount = Integer.parseInt(properties.getProperty("instance_count"));
+        testInstanceCount = Integer.parseInt(properties.getProperty("test_instance_count"));
+        scenarioInstanceCount = Integer.parseInt(properties.getProperty("scenario_instance_count"));
     }
 }
