@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public abstract class ProcessRunner {
-    private static Logger trLogger = Logger.getLogger(ProcessRunner.class);
+    protected Logger trLogger = Logger.getLogger(ProcessRunner.class);
     private final String TEST_FOLDER_PREFIX = "output_";
     private String templateFile;
     private String templateFolder;
@@ -72,6 +72,7 @@ public abstract class ProcessRunner {
 
     public String runProgram() {
         CommandLine cmdLine = new CommandLine(getTestStringPath());
+        cmdLine.addArgument(getProgramOutputFolder());
         cmdLine.addArgument(getProgramOutputFile());
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
