@@ -1,5 +1,5 @@
 
-        return returnValue;
+        return variableA;
     }
 
 	private static void printvalue(String desc, int value) {

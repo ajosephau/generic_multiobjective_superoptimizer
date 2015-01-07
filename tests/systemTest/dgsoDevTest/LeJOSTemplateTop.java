@@ -141,3 +141,4 @@ public class LeJOSBenchmark {
 									 int normalSpeed, int zeroSpeed, boolean booleanValue )
 	{
 		int returnValue = 0;
+		int variableA = 0, variableB = 0, variableC = 0;

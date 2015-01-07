@@ -88,7 +88,12 @@ public class ProgramBuilder {
     }
 
     private ArrayList<String> generateAllStatementsFromGrammar(ANTLRv4Grammar grammar, ANTLRv4GrammarClass grammarObject, int recursion_count) {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
+
+        if (grammarObject == null) {
+            programBuilderLogger.error("An error in the grammar file was detected.");
+            System.exit(-1);
+        }
 
         programBuilderLogger.debug("Recursion Depth: " + recursion_count + ", Grammar Object: " + grammarObject.getDescriptiveText());
 
@@ -96,20 +101,10 @@ public class ProgramBuilder {
             return returnList;
         }
 
-        if (grammarObject == null) {
-            programBuilderLogger.error("An error in the grammar file was detected.");
-            System.exit(-1);
-        }
         if (grammarObject.getType() == ANTLRv4GrammarType.PARSER_RULE_SPEC) {
-            String leftHandSide;
-            if (recursion_count > 0) {
-                leftHandSide = "";
-            } else {
-                leftHandSide = grammarObject.getIdentifier() + " :";
-            }
+            String leftHandSide = "";
 
-            ArrayList<String> labeled_alts = new ArrayList<String>();
-
+            ArrayList<String> labeled_alts = new ArrayList<>();
 
             ArrayList<ANTLRv4GrammarClass> childObjects = grammarObject.getChildren();
             for (ANTLRv4GrammarClass labeled_alt : childObjects) {
@@ -126,7 +121,7 @@ public class ProgramBuilder {
 
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_REFERENCE) {
                         ArrayList<String> parser_rule_specs = generateAllStatementsFromGrammar(grammar, getParserRuleSpec(subGrammarObject.getIdentifier(), grammar), recursion_count + 1);
-                        ArrayList<String> new_labeled_alts = new ArrayList<String>();
+                        ArrayList<String> new_labeled_alts = new ArrayList<>();
                         for (String labeledAltEntry : labeled_alts) {
                             for (String parser_rule_spec : parser_rule_specs) {
                                 new_labeled_alts.add(labeledAltEntry + parser_rule_spec);
@@ -141,7 +136,7 @@ public class ProgramBuilder {
                         }
                     }
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.ALT_LIST) {
-                        ArrayList<String> new_labeled_alts = new ArrayList<String>();
+                        ArrayList<String> new_labeled_alts = new ArrayList<>();
                         ArrayList<String> alt_list = generateAllStatementsFromGrammar(grammar, subGrammarObject, recursion_count + 1);
                         for (String labeledAltEntry : labeled_alts) {
                             for (String alternative : alt_list) {
