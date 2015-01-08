@@ -132,7 +132,7 @@ public class ProgramBuilder {
                     }
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_TERMINAL) {
                         for (int i = 0; i < labeled_alts.size(); i++) {
-                            labeled_alts.set(i, labeled_alts.get(i) + " " + subGrammarObject.getIdentifier());
+                            labeled_alts.set(i, labeled_alts.get(i) + subGrammarObject.getIdentifier());
                         }
                     }
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.ALT_LIST) {
@@ -140,7 +140,7 @@ public class ProgramBuilder {
                         ArrayList<String> alt_list = generateAllStatementsFromGrammar(grammar, subGrammarObject, recursion_count + 1);
                         for (String labeledAltEntry : labeled_alts) {
                             for (String alternative : alt_list) {
-                                new_labeled_alts.add(labeledAltEntry + " " + alternative);
+                                new_labeled_alts.add(labeledAltEntry + alternative);
                             }
                         }
                         labeled_alts.clear();

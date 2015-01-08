@@ -1,6 +1,5 @@
 package org.dgso;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.dgso.processrunner.ProcessRunnerFactory;
 import org.dgso.processrunner.ScenarioRunner;
@@ -18,6 +17,7 @@ public class DistributedGenericSuperoptimizer {
 
     private static String grammar_path;
     private static String startingRule;
+    private static String resultsHeader;
     private static String testTemplateFolder;
     private static String testTemplateFile;
     private static String testOutputFolder;
@@ -35,13 +35,12 @@ public class DistributedGenericSuperoptimizer {
     private static int timeout;
 
     public static void setupParameters(String pathToConfigFile) throws IOException {
-        BasicConfigurator.configure();
-
         Properties properties = new Properties();
         InputStream is = new FileInputStream(pathToConfigFile);
         properties.load(is);
 
         grammar_path = properties.getProperty("grammar_path");
+        resultsHeader = properties.getProperty("results_header");
         recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
         testTemplateFolder = properties.getProperty("test_template_folder");
@@ -81,7 +80,7 @@ public class DistributedGenericSuperoptimizer {
             TreeMap<String, String> results = scenarioRunners.runAllProcessesInSerial();
             scenarioRunners.cleanupProcessOutputFolder();
 
-            System.out.println(ScenarioRunner.formatResults(results));
+            dgsoLogger.info(ScenarioRunner.formatResults(results, startingRule, resultsHeader));
         } catch (IOException e) {
             dgsoLogger.error(e.getMessage());
         }
