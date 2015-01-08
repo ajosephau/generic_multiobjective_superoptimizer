@@ -1,4 +1,4 @@
-package org.dgso.programbuilder;
+package org.gso.programbuilder;
 
 import java.util.ArrayList;
 

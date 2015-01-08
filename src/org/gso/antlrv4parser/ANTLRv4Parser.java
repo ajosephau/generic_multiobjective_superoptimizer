@@ -1,4 +1,4 @@
-package org.dgso.antlrv4parser;
+package org.gso.antlrv4parser;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATN;

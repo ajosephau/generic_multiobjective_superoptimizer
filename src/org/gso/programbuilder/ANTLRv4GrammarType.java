@@ -1,4 +1,4 @@
-package org.dgso.programbuilder;
+package org.gso.programbuilder;
 
 public enum ANTLRv4GrammarType {
     ANTLR_GRAMMAR_SPEC,

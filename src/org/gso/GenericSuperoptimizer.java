@@ -1,9 +1,9 @@
-package org.dgso;
+package org.gso;
 
 import org.apache.log4j.Logger;
-import org.dgso.processrunner.ProcessRunnerFactory;
-import org.dgso.processrunner.ScenarioRunner;
-import org.dgso.programbuilder.ProgramBuilder;
+import org.gso.processrunner.ProcessRunnerFactory;
+import org.gso.processrunner.ScenarioRunner;
+import org.gso.programbuilder.ProgramBuilder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TreeMap;
 
-public class DistributedGenericSuperoptimizer {
-    private static Logger dgsoLogger = Logger.getLogger(DistributedGenericSuperoptimizer.class);
+public class GenericSuperoptimizer {
+    private static Logger gsoLogger = Logger.getLogger(GenericSuperoptimizer.class);
 
     private static String grammar_path;
     private static String startingRule;
@@ -80,9 +80,9 @@ public class DistributedGenericSuperoptimizer {
             TreeMap<String, String> results = scenarioRunners.runAllProcessesInSerial();
             scenarioRunners.cleanupProcessOutputFolder();
 
-            dgsoLogger.info(ScenarioRunner.formatResults(results, startingRule, resultsHeader));
+            gsoLogger.info(ScenarioRunner.formatResults(results, startingRule, resultsHeader));
         } catch (IOException e) {
-            dgsoLogger.error(e.getMessage());
+            gsoLogger.error(e.getMessage());
         }
     }
 }

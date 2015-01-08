@@ -1,4 +1,4 @@
-package org.dgso.processrunner;
+package org.gso.processrunner;
 
 import org.apache.log4j.Logger;
 

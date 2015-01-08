@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_gso_antlrv4parser" default="create.module.gso.antlrv4parser">
+  <dirname property="module.gso.basedir" file="compile_antlrv4_parser_from_g4_file.xml"/>
+
+  <property name="gso.antlrv4parser.output.dir" value="${module.gso.basedir}/src/org/gso/antlrv4parser"/>
+
+
+  <property name="library.antlr-4.4-complete.path" value="${basedir}/lib/antlr-4.4-complete.jar"/>
+
+  <target name="clean.module.gso.antlrv4parser" description="cleanup antlrv4parser module">
+    <delete dir="${gso.antlrv4parser.output.dir}"/>
+  </target>
+
+  <target name="create.module.gso.antlrv4parser" depends="create.module.gso.antlrv4parser.fromsources" description="create antlr v4 sources."/>
+  
+  <target name="create.module.gso.antlrv4parser.fromsources" description="create antlr v4 sources from lexer and parser g4 files.">
+    <mkdir dir="${gso.antlrv4parser.output.dir}"/>
+    <java
+      jar="${library.antlr-4.4-complete.path}"
+      fork="true"
+      failonerror="true"
+      >
+      <arg line="-o ${gso.antlrv4parser.output.dir} -no-listener -visitor -package org.gso.antlrv4parser ${module.gso.basedir}/conf/ANTLRv4Grammar/ANTLRv4Lexer.g4 ${module.gso.basedir}/conf/ANTLRv4Grammar/ANTLRv4Parser.g4"/>
+    </java>
+  </target>
+</project>

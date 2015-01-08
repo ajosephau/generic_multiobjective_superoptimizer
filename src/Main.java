@@ -1,6 +1,6 @@
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.dgso.DistributedGenericSuperoptimizer;
+import org.gso.GenericSuperoptimizer;
 
 public class Main {
     private static Logger mainLogger = Logger.getLogger(Main.class);
@@ -13,13 +13,13 @@ public class Main {
 
         // create a CharStream that reads from standard input
         if (args.length != 1) {
-            mainLogger.error("dgso requires 1 argument: the path to the configuration file.");
+            mainLogger.error("gso requires 1 argument: the path to the configuration file.");
             System.exit(-1);
         }
 
         inputFile = args[0];
 
-        DistributedGenericSuperoptimizer.runAsSingleProcessStandalone(inputFile);
+        GenericSuperoptimizer.runAsSingleProcessStandalone(inputFile);
     }
 
 }

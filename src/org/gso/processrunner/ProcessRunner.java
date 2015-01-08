@@ -1,4 +1,4 @@
-package org.dgso.processrunner;
+package org.gso.processrunner;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

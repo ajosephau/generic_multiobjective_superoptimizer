@@ -1,9 +1,9 @@
-package org.dgso.programbuilder;
+package org.gso.programbuilder;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.apache.log4j.Logger;
-import org.dgso.antlrv4parser.ANTLRv4Parser;
-import org.dgso.antlrv4parser.ANTLRv4ParserBaseVisitor;
+import org.gso.antlrv4parser.ANTLRv4Parser;
+import org.gso.antlrv4parser.ANTLRv4ParserBaseVisitor;
 
 /**
  * ANTLRv4 visitor parser to handle ANTLR text.
@@ -24,7 +24,7 @@ public class ANTLRv4Visitor extends ANTLRv4ParserBaseVisitor {
     }
 
     /**
-     * Visit a parse tree produced by {@link org.dgso.antlrv4parser.ANTLRv4Parser#grammarSpec}.
+     * Visit a parse tree produced by {@link org.gso.antlrv4parser.ANTLRv4Parser#grammarSpec}.
      *
      * @param ctx the parse tree
      * @return the visitor result

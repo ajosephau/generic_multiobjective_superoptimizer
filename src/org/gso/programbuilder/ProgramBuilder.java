@@ -1,11 +1,11 @@
-package org.dgso.programbuilder;
+package org.gso.programbuilder;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.log4j.Logger;
-import org.dgso.antlrv4parser.ANTLRv4Lexer;
-import org.dgso.antlrv4parser.ANTLRv4Parser;
+import org.gso.antlrv4parser.ANTLRv4Lexer;
+import org.gso.antlrv4parser.ANTLRv4Parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
