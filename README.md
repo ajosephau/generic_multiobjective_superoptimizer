@@ -3,9 +3,9 @@ An experimental project to develop a generic superoptimizer. That is, a superopt
 
 # Running GSO
 
-* import project into IDE (I'm using OSX with IntelliJ IDEA version 14).
+* import project into IDE (I'm using Windows 8/ Mac OSX Yosemite with IntelliJ IDEA version 14).
 * set project to use Java 8 (ensure Java 8 is also available by checking that running "java" or "javac" works).
-* run "Main.class" with the parameter "conf/properties/config_gso_test.properties".
+* run "Main.class" with the parameter "conf/properties/config_gso_test_mac.properties" or "conf/properties/config_gso_test_win.properties".
 * The "gso_test" app generates a small subset of Java basic primitive functions (see tests/grammars/gsoDevTest/java_lejos_superoptimizer_training.g4) and the "Test" sees if the function contains "VariableA". The scenarios determine the number of characters in the statements generated, and the size of the class when the statements generated is included in an example program.
 
 # Licences
