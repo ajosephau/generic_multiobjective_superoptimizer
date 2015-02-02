@@ -32,22 +32,29 @@ public class ScenarioRunner extends ProcessRunner {
 
         Set<String> ruleSet = resultsMap.keySet();
 
-        int longestKey = Integer.max(ruleSet.stream().mapToInt(String::length).max().getAsInt(), startingRule.length());
-        int longestValue = Integer.max(resultsMap.values().stream().mapToInt(String::length).max().getAsInt(), resultsHeader.length());
-        int width = LEFT_MARGIN.length() + longestKey + DIVIDER.length() + longestValue + RIGHT_MARGIN.length() - 1;
+        if(!ruleSet.isEmpty()) {
+            int longestKey = Integer.max(ruleSet.stream().mapToInt(String::length).max().getAsInt(), startingRule.length());
+            int longestValue = Integer.max(resultsMap.values().stream().mapToInt(String::length).max().getAsInt(), resultsHeader.length());
+            int width = LEFT_MARGIN.length() + longestKey + DIVIDER.length() + longestValue + RIGHT_MARGIN.length() - 1;
 
-        resultString += generateHeader(width);
+            resultString += generateHeader(width);
 
-        resultString += LEFT_MARGIN + StringUtils.center(startingRule,longestKey) + DIVIDER + StringUtils.center(resultsHeader,longestValue) + RIGHT_MARGIN;
+            resultString += LEFT_MARGIN + StringUtils.center(startingRule,longestKey) + DIVIDER + StringUtils.center(resultsHeader,longestValue) + RIGHT_MARGIN;
 
-        resultString += generateHeader(width);
+            resultString += generateHeader(width);
 
 
-        for(String rule : ruleSet) {
-            resultString += LEFT_MARGIN + StringUtils.center(rule,longestKey) + DIVIDER + StringUtils.center(resultsMap.get(rule),longestValue) + RIGHT_MARGIN;
+            for(String rule : ruleSet) {
+                resultString += LEFT_MARGIN + StringUtils.center(rule,longestKey) + DIVIDER + StringUtils.center(resultsMap.get(rule),longestValue) + RIGHT_MARGIN;
+            }
+
+            resultString += generateHeader(width);
         }
-
-        resultString += generateHeader(width);
+        else {
+            resultString += "********************" + System.getProperty("line.separator");
+            resultString += "Empty results table." + System.getProperty("line.separator");
+            resultString += "********************";
+        }
 
         return resultString;
     }
