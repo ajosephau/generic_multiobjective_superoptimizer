@@ -1,5 +1,5 @@
 # generic_superoptimizer
-An experimental project to develop a distributed, generic superoptimizer.
+An experimental project to develop a generic superoptimizer. That is, a superoptimizer that works with any programming language that can be expressed in a context-free grammar.
 
 # Running GSO
 
