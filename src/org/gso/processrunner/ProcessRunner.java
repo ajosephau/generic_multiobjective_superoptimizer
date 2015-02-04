@@ -155,11 +155,11 @@ public abstract class ProcessRunner {
     }
 
     public String getProgramOutputFolder() {
-        return getOutputFolder() + "/" + getTEST_FOLDER_PREFIX();
+        return getOutputFolder() + System.getProperty("file.separator")  + getTEST_FOLDER_PREFIX();
     }
 
     public String getProgramOutputFile() {
-        return getProgramOutputFolder() + "/" + getOutputFile();
+        return getProgramOutputFolder() + System.getProperty("file.separator")  + getOutputFile();
     }
 
     public String getOutputFile() {
