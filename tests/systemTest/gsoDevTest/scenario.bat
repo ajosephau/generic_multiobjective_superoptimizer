@@ -1,3 +1,3 @@
 @echo OFF
-SET variable="0 | 0"
+SET variable=%~z2
 ECHO %variable:"=%
