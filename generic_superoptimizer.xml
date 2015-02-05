@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="generic_superoptimizer" default="all">
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.lib.classpath">
+    <pathelement location="${basedir}/lib/antlr-4.4-complete.jar"/>
+    <pathelement location="${basedir}/lib/commons-exec-1.3.jar"/>
+    <pathelement location="${basedir}/lib/commons-io-2.4.jar"/>
+    <pathelement location="${basedir}/lib/commons-lang3-3.3.2.jar"/>
+    <pathelement location="${basedir}/lib/freemarker.jar"/>
+    <pathelement location="${basedir}/lib/log4j-1.2.17.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module generic_superoptimizer -->
+  
+  <dirname property="module.generic_superoptimizer.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.generic_superoptimizer" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="generic_superoptimizer.output.dir" value="${module.generic_superoptimizer.basedir}/out/production/generic_superoptimizer"/>
+  <property name="generic_superoptimizer.testoutput.dir" value="${module.generic_superoptimizer.basedir}/out/test/generic_superoptimizer"/>
+  
+  <path id="generic_superoptimizer.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="generic_superoptimizer.module.production.classpath">
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="generic_superoptimizer.runtime.production.module.classpath">
+    <pathelement location="${generic_superoptimizer.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="generic_superoptimizer.module.classpath">
+    <pathelement location="${generic_superoptimizer.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="generic_superoptimizer.runtime.module.classpath">
+    <pathelement location="${generic_superoptimizer.testoutput.dir}"/>
+    <pathelement location="${generic_superoptimizer.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.generic_superoptimizer">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.generic_superoptimizer">
+    <patternset refid="excluded.from.module.generic_superoptimizer"/>
+  </patternset>
+  
+  <path id="generic_superoptimizer.module.sourcepath">
+    <dirset dir="${module.generic_superoptimizer.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.generic_superoptimizer" depends="compile.module.generic_superoptimizer.production,compile.module.generic_superoptimizer.tests" description="Compile module generic_superoptimizer"/>
+  
+  <target name="compile.module.generic_superoptimizer.production" description="Compile module generic_superoptimizer; production classes">
+    <mkdir dir="${generic_superoptimizer.output.dir}"/>
+    <javac destdir="${generic_superoptimizer.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.generic_superoptimizer}"/>
+      <bootclasspath refid="generic_superoptimizer.module.bootclasspath"/>
+      <classpath refid="generic_superoptimizer.module.production.classpath"/>
+      <src refid="generic_superoptimizer.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.generic_superoptimizer"/>
+    </javac>
+    
+    <copy todir="${generic_superoptimizer.output.dir}">
+      <fileset dir="${module.generic_superoptimizer.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.generic_superoptimizer.tests" depends="compile.module.generic_superoptimizer.production" description="compile module generic_superoptimizer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.generic_superoptimizer" description="cleanup module">
+    <delete dir="${generic_superoptimizer.output.dir}"/>
+    <delete dir="${generic_superoptimizer.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.generic_superoptimizer, clean.artifact.generic_superoptimizer:jar" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.generic_superoptimizer" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.generic_superoptimizer.jar" value="${artifacts.temp.dir}/generic_superoptimizer.jar"/>
+  </target>
+  
+  <target name="clean.artifact.generic_superoptimizer:jar" description="clean generic_superoptimizer:jar artifact output">
+    <property name="artifact.output.generic_superoptimizer:jar" value="${basedir}/out/artifacts/generic_superoptimizer_jar"/>
+    <delete dir="${artifact.output.generic_superoptimizer:jar}"/>
+  </target>
+  
+  <target name="artifact.generic_superoptimizer:jar" depends="init.artifacts, compile.module.generic_superoptimizer" description="Build &#39;generic_superoptimizer:jar&#39; artifact">
+    <mkdir dir="${artifact.output.generic_superoptimizer:jar}"/>
+    <jar destfile="${temp.jar.path.generic_superoptimizer.jar}" duplicate="preserve" filesetmanifest="merge">
+      <zipfileset dir="${generic_superoptimizer.output.dir}"/>
+    </jar>
+    <copy file="${temp.jar.path.generic_superoptimizer.jar}" tofile="${artifact.output.generic_superoptimizer:jar}/generic_superoptimizer.jar"/>
+    <copy file="${basedir}/lib/commons-io-2.4.jar" tofile="${artifact.output.generic_superoptimizer:jar}/commons-io-2.4.jar"/>
+    <copy file="${basedir}/lib/commons-lang3-3.3.2.jar" tofile="${artifact.output.generic_superoptimizer:jar}/commons-lang3-3.3.2.jar"/>
+    <copy file="${basedir}/lib/freemarker.jar" tofile="${artifact.output.generic_superoptimizer:jar}/freemarker.jar"/>
+    <copy file="${basedir}/lib/commons-exec-1.3.jar" tofile="${artifact.output.generic_superoptimizer:jar}/commons-exec-1.3.jar"/>
+    <copy file="${basedir}/lib/antlr-4.4-complete.jar" tofile="${artifact.output.generic_superoptimizer:jar}/antlr-4.4-complete.jar"/>
+    <copy file="${basedir}/lib/log4j-1.2.17.jar" tofile="${artifact.output.generic_superoptimizer:jar}/log4j-1.2.17.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.generic_superoptimizer:jar" description="Build all artifacts">
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
