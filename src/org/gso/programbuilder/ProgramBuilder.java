@@ -156,10 +156,6 @@ public class ProgramBuilder {
                 if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_TERMINAL) {
                     returnList.add(subGrammarObject.getIdentifier());
                 }
-//                if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_REFERENCE) {
-//                }
-//                if (subGrammarObject.getType() == ANTLRv4GrammarType.ALT_LIST) {
-//                }
             }
         }
         return returnList;
