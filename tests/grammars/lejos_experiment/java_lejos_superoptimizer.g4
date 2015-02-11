@@ -1,23 +1,29 @@
 grammar java_lejos_superoptimizer;
 
 statement
-    :   expression ';'
-    |   'if ( ' logicalOperator ' ) { ' expression '; } else { ' expression  '; '
+    :   expression 
+    |   'if ( ' logicalOperator ' ) { ' expression ' } else { ' expression  ' }'
     ;
 
 expression
-    :   motorOperations
+    :   motorOperations ';'
     ;
 
 returnIntegerOperations
-    :   logicalOperator ' ? ' integerValue ' : ' integerValue
+    :   '(' '(' logicalOperator ')' ' ? ' integerValue ' : ' integerValue ')'
+    |   '(' integerValue ')'
     ;
 
 logicalOperator
-    :   '(reading > ( ' lightSensorOperations ' + ' lightSensorOperations ' ) / 2)'
+    :   variable ('>'|'<'|'=='|'!=') arithmeticOperations
     ;
 
-lightSensorOperations
+arithmeticOperations
+    :   ' ( ' integerValue ('*'|'/'|'%'|'+') integerValue ' ) '
+    |   ' ( ' arithmeticOperations ('*'|'/'|'%'|'+') integerValue ' ) '
+    ;
+
+lightSensorIntOperations
     :   lightSensor '.getHigh()'
     |   lightSensor '.getLow()'
     ;
@@ -37,9 +43,15 @@ motor
     |   'Motor.C'
     ;
     
+variable
+    :   'reading'
+    ;
+    
 integerValue
     :   'DEFINED_POWER'
+    |   lightSensorIntOperations
     |   '0'
+    |   '2'
     ;
 LOWER_CASE_CHARACTERS : [a-z]+ ;  // match lower-case identifiers
 WHITESPACE : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines, \r (Windows)
