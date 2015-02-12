@@ -2,8 +2,12 @@ grammar java_lejos_superoptimizer;
 
 statement
     :   expression 
+    |   expression expression
+    |   'if ( ' logicalOperator ' ) { ' expression expression ' }'
     |   'if ( ' logicalOperator ' ) { ' expression ' } else { ' expression  ' }'
-    |   'while ( ' logicalOperator ' ) { ' expression ' } '
+    |   'while ( ' logicalOperator ' ) { ' expression ' }'
+    |   'while ( ' logicalOperator ' ) { ' expression expression ' }'
+    |   'do { ' expression ' } while ( ' logicalOperator ' )'
     ;
 
 expression
@@ -19,7 +23,7 @@ lightSensor
 lightSensorOperations
     :   lightSensor 'c.alibrateHigh()'
     |   lightSensor '.calibrateLow()'
-    |   lightSensor '.setFloodlight(false)'
+    |   lightSensor '.setFloodlight(true)'
     |   lightSensor '.setFloodlight(false)'
     ;
 
