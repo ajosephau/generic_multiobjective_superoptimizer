@@ -3,6 +3,7 @@ package org.gso.programbuilder;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.gso.antlrv4parser.ANTLRv4Lexer;
 import org.gso.antlrv4parser.ANTLRv4Parser;
@@ -95,7 +96,7 @@ public class ProgramBuilder {
             System.exit(-1);
         }
 
-        programBuilderLogger.debug("Recursion Depth: " + recursion_count + ", Grammar Object: " + grammarObject.getDescriptiveText());
+        programBuilderLogger.debug(StringUtils.repeat('.', recursion_count) + " Recursion Depth: " + recursion_count + ", Grammar Object: " + grammarObject.getDescriptiveText());
 
         if (recursion_count > RECURSION_LIMIT) {
             return returnList;
@@ -109,14 +110,14 @@ public class ProgramBuilder {
             ArrayList<ANTLRv4GrammarClass> childObjects = grammarObject.getChildren();
             for (ANTLRv4GrammarClass labeled_alt : childObjects) {
                 // will always get a parser rule spec, so sub objects will be labeled_alt's
-                programBuilderLogger.debug("Recursion Depth: " + recursion_count + ", Labeled Alternative Rule: " + (childObjects.indexOf(labeled_alt) + 1) + " of " + childObjects.size());
+                programBuilderLogger.debug(StringUtils.repeat('.', recursion_count) + " Recursion Depth: " + recursion_count + ", Labeled Alternative \"" + labeled_alt.getIdentifier() + "\" Rule: " + (childObjects.indexOf(labeled_alt) + 1) + " of " + childObjects.size());
 
                 labeled_alts.clear();
                 labeled_alts.add(leftHandSide);
 
                 ArrayList<ANTLRv4GrammarClass> subChildObjects = labeled_alt.getChildren();
                 for (ANTLRv4GrammarClass subGrammarObject : subChildObjects) {
-                    programBuilderLogger.debug("Recursion Depth: " + recursion_count + ", Labeled Alternative Children: " + (subChildObjects.indexOf(subGrammarObject) + 1) + " of " + subChildObjects.size());
+                    programBuilderLogger.debug(StringUtils.repeat('.', recursion_count) + " Recursion Depth: " + recursion_count + ", Labeled Alternative \"" + subGrammarObject.getIdentifier() + "\" Children: " + (subChildObjects.indexOf(subGrammarObject) + 1) + " of " + subChildObjects.size());
 
 
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_REFERENCE) {
@@ -124,6 +125,7 @@ public class ProgramBuilder {
                         ArrayList<String> new_labeled_alts = new ArrayList<>();
                         for (String labeledAltEntry : labeled_alts) {
                             for (String parser_rule_spec : parser_rule_specs) {
+                                //programBuilderLogger.debug("-> Adding rule_ref \"" + parser_rule_spec + "\" to \"" + labeledAltEntry + "\"");
                                 new_labeled_alts.add(labeledAltEntry + parser_rule_spec);
                             }
                         }
@@ -132,6 +134,7 @@ public class ProgramBuilder {
                     }
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_TERMINAL) {
                         for (int i = 0; i < labeled_alts.size(); i++) {
+                            //programBuilderLogger.debug("-> Adding terminal text \"" + subGrammarObject.getIdentifier() + "\" to \"" + labeled_alts.get(i) + "\"");
                             labeled_alts.set(i, labeled_alts.get(i) + subGrammarObject.getIdentifier());
                         }
                     }
@@ -140,6 +143,7 @@ public class ProgramBuilder {
                         ArrayList<String> alt_list = generateAllStatementsFromGrammar(grammar, subGrammarObject, recursion_count + 1);
                         for (String labeledAltEntry : labeled_alts) {
                             for (String alternative : alt_list) {
+                                //programBuilderLogger.debug("-> Adding alt_list \"" + alternative + "\" to \"" + labeledAltEntry + "\"");
                                 new_labeled_alts.add(labeledAltEntry + alternative);
                             }
                         }
