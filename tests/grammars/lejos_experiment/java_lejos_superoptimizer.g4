@@ -3,11 +3,11 @@ grammar java_lejos_superoptimizer;
 statement
     :   expression 
     |   expression expression
-    |   'if ( ' logicalOperator ' ) { ' expression expression ' }'
-    |   'if ( ' logicalOperator ' ) { ' expression ' } else { ' expression  ' }'
-    |   'while ( ' logicalOperator ' ) { ' expression ' }'
-    |   'while ( ' logicalOperator ' ) { ' expression expression ' }'
-    |   'do { ' expression ' } while ( ' logicalOperator ' )'
+    |   'if' ' ( ' logicalOperator ' ) ' ' { ' expression ' ' expression ' } '
+    |   'if' ' ( ' logicalOperator ' ) ' ' { ' expression ' } ' 'else' ' { ' expression  ' } '
+    |   'while' ' ( ' logicalOperator ' ) ' ' { ' expression ' } '
+    |   'while' ' ( ' logicalOperator ' ) ' ' { ' expression expression ' } '
+    |   'do' ' { ' expression ' } ' 'while' ' ( ' logicalOperator ' ) '
     ;
 
 expression
@@ -21,13 +21,12 @@ lightSensor
     ;
 
 lightSensorOperations
-    :   lightSensor 'c.alibrateHigh()'
+    :   lightSensor '.calibrateHigh()'
     |   lightSensor '.calibrateLow()'
-    |   lightSensor '.setFloodlight(true)'
-    |   lightSensor '.setFloodlight(false)'
+    |   lightSensor '.setFloodlight( ' booleanValue ' )'
     ;
 
-lightSensorIntOperations
+lightSensorFunctionsReturningAnInteger
     :   lightSensor '.getHigh()'
     |   lightSensor '.getLow()'
     ;
@@ -36,10 +35,9 @@ motorOperations
     :   motor '.backward()'
     |   motor '.flt()'
     |   motor '.forward()'
-    |   motor '.regulateSpeed(true)'
-    |   motor '.regulateSpeed(false)'
+    |   motor '.regulateSpeed( ' booleanValue ' )'
     |   motor '.reverseDirection()'
-    |   motor '.setPower( ' returnIntegerOperations ' )'
+    |   motor '.setPower( ' functionsReturningAnInteger ' )'
     |   motor '.shutdown()'
     |   motor '.stop()'
     ;
@@ -53,8 +51,8 @@ variable
     :   'reading'
     ;
 
-returnIntegerOperations
-    :   '( ( ' logicalOperator ' ) ? ' integerValue ' : ' integerValue ' )'
+functionsReturningAnInteger
+    :   '( ' '( ' logicalOperator ' )' ' ? ' integerValue ' : ' integerValue ' )'
     |   arithmeticOperations
     |   '( ' integerValue ' ) '
     ;
@@ -73,10 +71,15 @@ arithmeticOperations
     :   integerValue arithmeticOperands integerValue
     ;
 
+booleanValue
+    :   'true'
+    |   'false'
+    ;
+
 integerValue
-    :   'DEFINED_POWER'
-    |   lightSensorIntOperations
-    |   '2'
+    :   '2'
+    |   'DEFINED_POWER'
+    |   lightSensorFunctionsReturningAnInteger
     ;
 
 arithmeticOperands

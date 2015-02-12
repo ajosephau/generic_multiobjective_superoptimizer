@@ -65,7 +65,8 @@ public class GenericSuperoptimizer {
             setupParameters(inputFile);
 
             ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursionLimit);
-
+            gsoLogger.info(statements.size() + " programs created.");
+            
             ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
             testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, timeout, testInstanceCount);
             testRunners.assignStatementsToProcessRunners(statements);
