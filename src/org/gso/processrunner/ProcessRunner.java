@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public abstract class ProcessRunner {
-    protected Logger trLogger = Logger.getLogger(ProcessRunner.class);
+    protected Logger processRunnerLogger = Logger.getLogger(ProcessRunner.class);
     private final String TEST_FOLDER_PREFIX = "output_";
     private String templateFile;
     private String templateFolder;
@@ -45,7 +45,7 @@ public abstract class ProcessRunner {
             programTemplate = cfg.getTemplate(this.getTemplateFile());
 
         } catch (IOException e) {
-            trLogger.error(e);
+            processRunnerLogger.error(e);
         }
     }
 
@@ -59,14 +59,14 @@ public abstract class ProcessRunner {
             File directory = new File(getProgramOutputFolder());
 
             boolean mkdirResult = directory.mkdir();
-            trLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
+            processRunnerLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
 
             FileWriter file = new FileWriter(getProgramOutputFile());
             programTemplate.process(data, file);
             file.flush();
             file.close();
         } catch (TemplateException | IOException e) {
-            trLogger.error(e);
+            processRunnerLogger.error(e);
         }
     }
 
@@ -90,20 +90,20 @@ public abstract class ProcessRunner {
 
             int exitValue = resultHandler.getExitValue();
 
-            trLogger.debug("Exit value: " + exitValue);
+            processRunnerLogger.debug("Exit value: " + exitValue);
 
             Exception executeException = resultHandler.getException();
             if (executeException != null) {
-                trLogger.error(executeException);
+                processRunnerLogger.error(executeException);
             }
 
             processOutput = removeNewlines(out.toString());
 
         } catch (IOException | InterruptedException e) {
-            trLogger.error(e);
+            processRunnerLogger.error(e);
         }
 
-        trLogger.debug("Program: \"" + processInput + "\" obtained result: \"" + processOutput + "\"");
+        processRunnerLogger.debug("Program: \"" + processInput + "\" obtained result: \"" + processOutput + "\"");
 
         return processOutput;
     }

@@ -3,16 +3,18 @@ package org.gso.processrunner;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class ScenarioRunner extends ProcessRunner {
 
     TreeMap<String, String> scenarioResults;
-
+    
     protected ScenarioRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, int timeout, int builderID) {
         super(templateFolder, templateFile, outputFolder, outputFile, testStringPath, timeout, builderID);
-        trLogger = Logger.getLogger(ScenarioRunner.class);
+        processRunnerLogger = Logger.getLogger(ScenarioRunner.class);
     }
 
     public TreeMap<String, String> runProcesses() {
@@ -25,10 +27,35 @@ public class ScenarioRunner extends ProcessRunner {
 
         return scenarioResults;
     }
+    
+    public void outputScenarioResults(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader, String resultsFilePath) {
+        try {
+            PrintWriter pw = new PrintWriter(resultsFilePath);
+            final String TAB_DELIMNITER = "\t";
+            Set<String> ruleSet = resultsMap.keySet();
 
-    public static String formatResults(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader) {
-        String resultString = System.getProperty("line.separator");
-        final String LEFT_MARGIN = "*  ", DIVIDER = "  *  ", RIGHT_MARGIN = "  *" + System.getProperty("line.separator");
+            pw.write(startingRule + TAB_DELIMNITER + resultsHeader + System.lineSeparator());
+            
+            if(!ruleSet.isEmpty()) {
+                for(String rule : ruleSet) {
+                    pw.write(rule + TAB_DELIMNITER + resultsMap.get(rule) + System.lineSeparator());
+                }
+            }
+            else {
+                pw.write("Empty results table." + System.lineSeparator());
+            }
+            
+            pw.close();
+        }
+        catch (FileNotFoundException e) {
+            processRunnerLogger.error(e);
+            System.exit(-1);
+        }
+    }
+
+    public static String formatResultsForConsoleOutput(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader) {
+        String resultString = System.lineSeparator();
+        final String LEFT_MARGIN = "*  ", DIVIDER = "  *  ", RIGHT_MARGIN = "  *" + System.lineSeparator();
 
         Set<String> ruleSet = resultsMap.keySet();
 
@@ -51,8 +78,8 @@ public class ScenarioRunner extends ProcessRunner {
             resultString += generateHeader(width);
         }
         else {
-            resultString += "********************" + System.getProperty("line.separator");
-            resultString += "Empty results table." + System.getProperty("line.separator");
+            resultString += "********************" + System.lineSeparator();
+            resultString += "Empty results table." + System.lineSeparator();
             resultString += "********************";
         }
 
@@ -60,6 +87,6 @@ public class ScenarioRunner extends ProcessRunner {
     }
 
     private static String generateHeader(int width) {
-        return StringUtils.leftPad("", width, '*') + System.getProperty("line.separator");
+        return StringUtils.leftPad("", width, '*') + System.lineSeparator();
     }
 }

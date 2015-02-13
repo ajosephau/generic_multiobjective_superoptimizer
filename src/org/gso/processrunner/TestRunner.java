@@ -8,7 +8,7 @@ public class TestRunner extends ProcessRunner {
 
     protected TestRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, int timeout, int builderID) {
         super(templateFolder, templateFile, outputFolder, outputFile, testStringPath, timeout, builderID);
-        trLogger = Logger.getLogger(TestRunner.class);
+        processRunnerLogger = Logger.getLogger(TestRunner.class);
     }
 
     public TreeMap<String, String> runProcesses() {

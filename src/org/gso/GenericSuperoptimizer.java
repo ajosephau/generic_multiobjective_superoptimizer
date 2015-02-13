@@ -17,7 +17,10 @@ public class GenericSuperoptimizer {
 
     private static String grammar_path;
     private static String startingRule;
-    private static String resultsHeader;
+    private static String programListOutputFilePath;
+    private static String resultsOutputFilePath;
+    private static String tabDelimitedFileResultsHeader;
+    private static String consoleResultsHeader;
     private static String testTemplateFolder;
     private static String testTemplateFile;
     private static String testOutputFolder;
@@ -40,9 +43,12 @@ public class GenericSuperoptimizer {
         properties.load(is);
 
         grammar_path = properties.getProperty("grammar_path");
-        resultsHeader = properties.getProperty("results_header");
+        consoleResultsHeader = properties.getProperty("console_results_header");
+        tabDelimitedFileResultsHeader = properties.getProperty("tab_delimited_file_results_header");
         recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
+        programListOutputFilePath = properties.getProperty("program_list_output_file_path");
+        resultsOutputFilePath = properties.getProperty("results_output_file_path");
         testTemplateFolder = properties.getProperty("test_template_folder");
         testTemplateFile = properties.getProperty("test_template_file");
         testOutputFolder = properties.getProperty("test_output_folder");
@@ -64,12 +70,13 @@ public class GenericSuperoptimizer {
         try {
             setupParameters(inputFile);
 
-            ArrayList<String> statements = ProgramBuilder.getAllStatementsFromGrammar(grammar_path, startingRule, recursionLimit);
-            gsoLogger.info(statements.size() + " programs created.");
-            
+            ArrayList<String> programs = ProgramBuilder.getAllProgramsFromGrammar(grammar_path, startingRule, recursionLimit);
+            ProgramBuilder.outputListOfProgramsToFile(programs, programListOutputFilePath);
+            gsoLogger.info(programs.size() + " programs created.");
+
             ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
             testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, timeout, testInstanceCount);
-            testRunners.assignStatementsToProcessRunners(statements);
+            testRunners.assignStatementsToProcessRunners(programs);
             TreeMap<String, String> testResults = testRunners.runAllProcessesInSerial();
             testRunners.cleanupProcessOutputFolder();
 
@@ -81,7 +88,9 @@ public class GenericSuperoptimizer {
             TreeMap<String, String> results = scenarioRunners.runAllProcessesInSerial();
             scenarioRunners.cleanupProcessOutputFolder();
 
-            gsoLogger.info(ScenarioRunner.formatResults(results, startingRule, resultsHeader));
+            String formattedResults = ScenarioRunner.formatResultsForConsoleOutput(results, startingRule, consoleResultsHeader);
+            ((ScenarioRunner) scenarioRunners.getFirstProcessRunner()).outputScenarioResults(results, startingRule, tabDelimitedFileResultsHeader, resultsOutputFilePath);
+            gsoLogger.info(formattedResults);
         } catch (IOException e) {
             gsoLogger.error(e.getMessage());
         }

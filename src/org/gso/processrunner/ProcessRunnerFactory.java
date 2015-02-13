@@ -67,6 +67,10 @@ public class ProcessRunnerFactory {
         tbfLogger.debug("Result from deleting directory: " + getProcessOutputFolder() + ": true");
     }
 
+    public ProcessRunner getFirstProcessRunner() {
+        return processRunners.get(0);
+    }
+    
     public String getProcessOutputFolder() {
         return processOutputFolder;
     }

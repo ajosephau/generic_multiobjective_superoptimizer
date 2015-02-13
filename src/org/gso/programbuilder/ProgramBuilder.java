@@ -8,10 +8,7 @@ import org.apache.log4j.Logger;
 import org.gso.antlrv4parser.ANTLRv4Lexer;
 import org.gso.antlrv4parser.ANTLRv4Parser;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -21,6 +18,27 @@ public class ProgramBuilder {
     private static Logger programBuilderLogger = Logger.getLogger(ProgramBuilder.class);
 
     public ProgramBuilder() {
+    }
+    
+    public static void outputListOfProgramsToFile(ArrayList<String> programs, String pathToFile) {
+        try {
+            PrintWriter pw = new PrintWriter(pathToFile);
+            long i = 0;
+            int numberOfPrograms = programs.size();
+            int programSizeStringLength = (int) Math.log10(numberOfPrograms) + 1;
+            pw.write("Number of programs: " + programs.size() + System.lineSeparator());
+
+            for(String program: programs) {
+                i++;
+                String programNumber = StringUtils.leftPad(Long.toString(i), programSizeStringLength, '0');
+                pw.write(programNumber + " of " + numberOfPrograms + ":\t" + program + System.lineSeparator());
+            }
+            pw.close();
+        }
+        catch (FileNotFoundException e) {
+            programBuilderLogger.error(e);
+            System.exit(-1);
+        }
     }
 
     public static ANTLRv4GrammarClass getParserRuleSpec(String startingRule, ANTLRv4Grammar grammar) {
@@ -41,7 +59,7 @@ public class ProgramBuilder {
         return null;
     }
 
-    public static ArrayList<String> getAllStatementsFromGrammar(String inputFile, String startingRule, int recursionLimit) {
+    public static ArrayList<String> getAllProgramsFromGrammar(String inputFile, String startingRule, int recursionLimit) {
         InputStream is = System.in;
         try {
             if (inputFile != null) {
@@ -71,11 +89,11 @@ public class ProgramBuilder {
         ANTLRv4Grammar grammar = (ANTLRv4Grammar) av.visit(tree);
 
         ProgramBuilder pb = new ProgramBuilder();
-        return pb.generateAllStatementsFromGrammar(startingRule, grammar, recursionLimit);
+        return pb.generateAllProgramsFromGrammar(startingRule, grammar, recursionLimit);
     }
 
 
-    public ArrayList<String> generateAllStatementsFromGrammar(String startingRule, ANTLRv4Grammar grammar, int recursionLimit) {
+    public ArrayList<String> generateAllProgramsFromGrammar(String startingRule, ANTLRv4Grammar grammar, int recursionLimit) {
         ANTLRv4GrammarClass parserRuleSpec = getParserRuleSpec(startingRule, grammar);
 
         RECURSION_LIMIT = recursionLimit;
@@ -85,10 +103,10 @@ public class ProgramBuilder {
             System.exit(-1);
         }
 
-        return generateAllStatementsFromGrammar(grammar, parserRuleSpec, 0);
+        return generateAllProgramsFromGrammar(grammar, parserRuleSpec, 0);
     }
 
-    private ArrayList<String> generateAllStatementsFromGrammar(ANTLRv4Grammar grammar, ANTLRv4GrammarClass grammarObject, int recursion_count) {
+    private ArrayList<String> generateAllProgramsFromGrammar(ANTLRv4Grammar grammar, ANTLRv4GrammarClass grammarObject, int recursion_count) {
         ArrayList<String> returnList = new ArrayList<>();
 
         if (grammarObject == null) {
@@ -121,7 +139,7 @@ public class ProgramBuilder {
 
 
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.RULE_REFERENCE) {
-                        ArrayList<String> parser_rule_specs = generateAllStatementsFromGrammar(grammar, getParserRuleSpec(subGrammarObject.getIdentifier(), grammar), recursion_count + 1);
+                        ArrayList<String> parser_rule_specs = generateAllProgramsFromGrammar(grammar, getParserRuleSpec(subGrammarObject.getIdentifier(), grammar), recursion_count + 1);
                         ArrayList<String> new_labeled_alts = new ArrayList<>();
                         for (String labeledAltEntry : labeled_alts) {
                             for (String parser_rule_spec : parser_rule_specs) {
@@ -140,7 +158,7 @@ public class ProgramBuilder {
                     }
                     if (subGrammarObject.getType() == ANTLRv4GrammarType.ALT_LIST) {
                         ArrayList<String> new_labeled_alts = new ArrayList<>();
-                        ArrayList<String> alt_list = generateAllStatementsFromGrammar(grammar, subGrammarObject, recursion_count + 1);
+                        ArrayList<String> alt_list = generateAllProgramsFromGrammar(grammar, subGrammarObject, recursion_count + 1);
                         for (String labeledAltEntry : labeled_alts) {
                             for (String alternative : alt_list) {
                                 //programBuilderLogger.debug("-> Adding alt_list \"" + alternative + "\" to \"" + labeledAltEntry + "\"");
