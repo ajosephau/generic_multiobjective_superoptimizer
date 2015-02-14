@@ -9,14 +9,23 @@ statement
     |   'do' ' { ' multipleExpressions ' } ' 'while' ' ( ' simpleLogicalOperator ' ) '
     ;
 
-expression
-    :   motorOperations ';'
-    |   lightSensorOperations ';'
+baselineStatement
+    :   'if' ' ( ' logicalOperator ' ) ' ' { ' basicMotorExpressions ' } ' 'else' ' { ' basicMotorExpressions  ' } '
     ;
 
 multipleExpressions
     :   expression
     |   expression ' ' expression
+    ;
+
+expression
+    :   motorOperations ';'
+    |   lightSensorOperations ';'
+    ;
+
+basicMotorExpressions
+    :   basicMotorOperations ';'
+    |   basicMotorOperations ';' basicMotorOperations ';'
     ;
 
 lightSensor
@@ -39,14 +48,18 @@ motor
     |   'Motor.C'
     ;
 
+basicMotorOperations
+    :   motor '.forward()'
+    |   motor '.stop()'
+    ;
+
 motorOperations
-    :   motor '.backward()'
+    :   basicMotorOperations
+    |   motor '.backward()'
     |   motor '.flt()'
-    |   motor '.forward()'
     |   motor '.regulateSpeed( ' booleanValue ' )'
     |   motor '.reverseDirection()'
     |   motor '.shutdown()'
-    |   motor '.stop()'
     ;
 
 complexMotorOperations
@@ -59,16 +72,18 @@ functionsReturningAnInteger
     :   '( ' '( ' logicalOperator ' )' ' ? ' integerValue ' : ' integerValue ' )'
     |   arithmeticOperations
     |   integerValue
+    |   variable
     ;
 
 simpleLogicalOperator
     :   variable logicalOperands integerValue
+    |   variable logicalOperands variable
     ;
 
 logicalOperator
     :   simpleLogicalOperator
     |   variable logicalOperands '( ' arithmeticOperations ' )'
-    |   variable logicalOperands '( 'compoundArithmeticOperations  ' )'
+    |   variable logicalOperands '( ' compoundArithmeticOperations  ' )'
     ;
 
 compoundArithmeticOperations
@@ -86,13 +101,13 @@ booleanValue
 
 integerValue
     :   '2'
-    |   'checkValue'
     |   'DEFINED_POWER'
     |   lightSensorFunctionsReturningAnInteger
     ;
 
 variable
     :   'reading'
+    |   'checkValue'
     ;
 
 arithmeticOperands
