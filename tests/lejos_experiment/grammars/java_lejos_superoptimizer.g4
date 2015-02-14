@@ -1,23 +1,31 @@
 grammar java_lejos_superoptimizer;
 
 statement
-    :   expression 
-    |   expression expression
-    |   'if' ' ( ' logicalOperator ' ) ' ' { ' expression ' ' expression ' } '
-    |   'if' ' ( ' logicalOperator ' ) ' ' { ' expression ' } ' 'else' ' { ' expression  ' } '
-    |   'while' ' ( ' logicalOperator ' ) ' ' { ' expression ' } '
-    |   'while' ' ( ' logicalOperator ' ) ' ' { ' expression expression ' } '
-    |   'do' ' { ' expression ' } ' 'while' ' ( ' logicalOperator ' ) '
+    :   complexMotorOperations
+    |   multipleExpressions
+    |   'if' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } '
+    |   'if' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } ' 'else' ' { ' multipleExpressions  ' } '
+    |   'while' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } '
+    |   'do' ' { ' multipleExpressions ' } ' 'while' ' ( ' simpleLogicalOperator ' ) '
     ;
 
 expression
     :   motorOperations ';'
     |   lightSensorOperations ';'
-    |   '//NO OPERATION'
+    ;
+
+multipleExpressions
+    :   expression
+    |   expression ' ' expression
     ;
 
 lightSensor
     :   'lightSensor'
+    ;
+
+lightSensorFunctionsReturningAnInteger
+    :   lightSensor '.getHigh()'
+    |   lightSensor '.getLow()'
     ;
 
 lightSensorOperations
@@ -26,9 +34,9 @@ lightSensorOperations
     |   lightSensor '.setFloodlight( ' booleanValue ' )'
     ;
 
-lightSensorFunctionsReturningAnInteger
-    :   lightSensor '.getHigh()'
-    |   lightSensor '.getLow()'
+motor
+    :   'Motor.B'
+    |   'Motor.C'
     ;
 
 motorOperations
@@ -37,34 +45,34 @@ motorOperations
     |   motor '.forward()'
     |   motor '.regulateSpeed( ' booleanValue ' )'
     |   motor '.reverseDirection()'
-    |   motor '.setPower( ' functionsReturningAnInteger ' )'
     |   motor '.shutdown()'
     |   motor '.stop()'
     ;
 
-motor
-    :   'Motor.B'
-    |   'Motor.C'
-    ;
-
-variable
-    :   'reading'
+complexMotorOperations
+    :   motor '.rotateTo( ' functionsReturningAnInteger ' )'
+    |   motor '.setPower( ' functionsReturningAnInteger ' )'
+    |   motor '.setSpeed( ' functionsReturningAnInteger ' )'
     ;
 
 functionsReturningAnInteger
     :   '( ' '( ' logicalOperator ' )' ' ? ' integerValue ' : ' integerValue ' )'
     |   arithmeticOperations
-    |   '( ' integerValue ' ) '
+    |   integerValue
+    ;
+
+simpleLogicalOperator
+    :   variable logicalOperands integerValue
     ;
 
 logicalOperator
-    :   variable logicalOperands '( ' arithmeticOperations ' )'
+    :   simpleLogicalOperator
+    |   variable logicalOperands '( ' arithmeticOperations ' )'
     |   variable logicalOperands '( 'compoundArithmeticOperations  ' )'
     ;
 
 compoundArithmeticOperations
-    :    integerValue arithmeticOperands ' ( ' arithmeticOperations ' )'
-    |   '( ' arithmeticOperations ' ) ' arithmeticOperands integerValue
+    :   '( ' arithmeticOperations ' ) ' arithmeticOperands integerValue
     ;
 
 arithmeticOperations
@@ -78,8 +86,13 @@ booleanValue
 
 integerValue
     :   '2'
+    |   'checkValue'
     |   'DEFINED_POWER'
     |   lightSensorFunctionsReturningAnInteger
+    ;
+
+variable
+    :   'reading'
     ;
 
 arithmeticOperands
