@@ -1,16 +1,13 @@
 grammar java_lejos_superoptimizer;
 
 statement
-    :   complexMotorOperations
-    |   multipleExpressions
+    :   multipleExpressions
     |   'if' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } '
     |   'if' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } ' 'else' ' { ' multipleExpressions  ' } '
+    |   'if' ' ( ' logicalOperator ' ) ' ' { ' basicMotorExpressions ' } ' 'else' ' { ' basicMotorExpressions  ' } '
     |   'while' ' ( ' simpleLogicalOperator ' ) ' ' { ' multipleExpressions ' } '
     |   'do' ' { ' multipleExpressions ' } ' 'while' ' ( ' simpleLogicalOperator ' ) '
-    ;
-
-baselineStatement
-    :   'if' ' ( ' logicalOperator ' ) ' ' { ' basicMotorExpressions ' } ' 'else' ' { ' basicMotorExpressions  ' } '
+    |   complexMotorOperations ';'
     ;
 
 multipleExpressions
