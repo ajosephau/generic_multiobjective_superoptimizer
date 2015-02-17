@@ -1,0 +1,1 @@
+FINDSTR ": " nxjConsoleOutput.txt

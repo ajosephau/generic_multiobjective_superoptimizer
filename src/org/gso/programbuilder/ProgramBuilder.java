@@ -171,6 +171,7 @@ public class ProgramBuilder {
                 }
                 programBuilderLogger.debug(StringUtils.repeat('.', recursion_count) + " Recursion Depth: " + recursion_count + ", Labeled Alternative \"" + labeled_alt.getIdentifier() + "\": Adding generated programs to interim list. Please wait...");
                 returnList.addAll(labeled_alts);
+                returnList.trimToSize();
             }
         }
 
