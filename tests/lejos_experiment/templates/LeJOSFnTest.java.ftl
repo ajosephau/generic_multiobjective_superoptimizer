@@ -2,44 +2,46 @@ import lejos.nxt.*;
 import lejos.nxt.comm.RConsole;
 
 public class LeJOSFnTest {
-    private final static int DEFINED_POWER = 67;
-    private final static int ZERO_VALUE = 1; // 1 chosen as a "zero value" for superoptimizer.
+    private final static int DEFINED_SPEED = 67;
+    private final static int ZERO_VALUE = 2; // 2 chosen as a "zero value" for superoptimizer.
 
     public static void main(String[] args) {
         try {
             LightSensor lightSensor = new LightSensor(SensorPort.S1);
-            int numberOfFailures = 0, reading = 0, checkValue = 0;
-            int[] readingValues = {0, 50,  150, 100};
-            int[] checkValues   = {0, 100, 100, 100};
+            int numberOfFailures = 0, checkValue;
+            final int OFFSET = 50;
+            checkValue = (lightSensor.getHigh() + lightSensor.getLow()) / 2;
+            int[] readingValues = {0, checkValue - OFFSET, checkValue, checkValue + OFFSET};
+            int[] checkValues = {checkValue, checkValue, checkValue, checkValue};
             boolean result = true;
 
             RConsole.open();
             setUp();
-            
-            for(int i=0; i<readingValues.length; i++) {
+
+            for (int i = 0; i < readingValues.length; i++) {
                 result = result && checkFunctionForTest(readingValues[i], checkValues[i], lightSensor);
                 if (!result) {
                     numberOfFailures++;
                 }
             }
-            
+
             RConsole.println(result + ": Number of failures: " + numberOfFailures);
-            
+
             RConsole.close();
 
         } catch (Exception e) {
             // no handler - expose to operator via LeJOS firmware.
         }
-
     }
-    
+
     private static void setUp() {
-        Motor.B.setSpeed(DEFINED_POWER);
-        Motor.C.setSpeed(DEFINED_POWER);
+        Motor.B.setSpeed(DEFINED_SPEED);
+        Motor.C.setSpeed(DEFINED_SPEED);
+        Motor.B.forward();
+        Motor.C.forward();
     }
 
-    private static boolean checkFunctionForTest(int reading, int checkValue,
-                                                LightSensor lightSensor) {
+    private static boolean checkFunctionForTest(int reading, int checkValue, LightSensor lightSensor) {
         final int STOPPED_MOTOR_STATUS = 3;
         final int FORWARD_MOTOR_STATUS = 1;
 
@@ -56,10 +58,10 @@ public class LeJOSFnTest {
 
         // Check if motor B is still moving, and motor C is moving only if the
         //  conditions in the test are satisfied
-        result = result && ((isMotorBMoving == true) && (motorBMode == FORWARD_MOTOR_STATUS) && (motorBSpeed == DEFINED_POWER));
+        result = result && ((isMotorBMoving == true) && (motorBMode == FORWARD_MOTOR_STATUS) && (motorBSpeed == DEFINED_SPEED));
         if (reading > checkValue) {
             // Motor C should be moving
-            result = result && ((isMotorCMoving == true) && (motorCMode == FORWARD_MOTOR_STATUS) && (motorCSpeed == DEFINED_POWER));
+            result = result && ((isMotorCMoving == true) && (motorCMode == FORWARD_MOTOR_STATUS) && (motorCSpeed == DEFINED_SPEED));
         } else {
             // Motor C should have stopped (could be 'moving' at a 'ZERO_VALUE' speed)
             result = result && (((isMotorCMoving == false) && (motorCMode == STOPPED_MOTOR_STATUS)) || ((isMotorCMoving == true) && (motorCMode == FORWARD_MOTOR_STATUS) && (motorCSpeed == ZERO_VALUE)));
@@ -68,9 +70,7 @@ public class LeJOSFnTest {
         return result;
     }
 
-    private static void functionForTest(int reading, int checkValue,
-                                        LightSensor lightSensor) {
+    private static void functionForTest(int reading, int checkValue, LightSensor lightSensor) {
         ${statement}
     }
-
 }

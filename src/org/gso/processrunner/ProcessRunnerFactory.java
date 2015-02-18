@@ -41,17 +41,17 @@ public class ProcessRunnerFactory {
         tbfLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
     }
 
-    public void assignStatementsToProcessRunners(ArrayList<String> statements) {
+    public void assignProgramsToProcessRunners(ArrayList<String> programs) {
         int numProcessRunners = processRunners.size();
-        for (int i = 0; i < statements.size(); i++) {
-            processRunners.get(i % numProcessRunners).addStatementToStatements(statements.get(i));
+        for (int i = 0; i < programs.size(); i++) {
+            processRunners.get(i % numProcessRunners).addProgramToPrograms(programs.get(i));
         }
     }
 
-    public TreeMap<String, String> runAllProcessesInSerial() {
+    public TreeMap<String, String> runAllProcessesInSerial(String startingRule) {
         TreeMap<String, String> results = new TreeMap<>();
         for (ProcessRunner pr : processRunners) {
-            results.putAll(pr.runProcesses());
+            results.putAll(pr.runProcesses(startingRule));
         }
 
         return results;

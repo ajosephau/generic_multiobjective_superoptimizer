@@ -2,6 +2,7 @@ package org.gso;
 
 import org.apache.log4j.Logger;
 import org.gso.processrunner.ProcessRunnerFactory;
+import org.gso.processrunner.TestRunner;
 import org.gso.processrunner.ScenarioRunner;
 import org.gso.programbuilder.ProgramBuilder;
 
@@ -18,7 +19,8 @@ public class GenericSuperoptimizer {
     private static String grammar_path;
     private static String startingRule;
     private static String programListOutputFilePath;
-    private static String resultsOutputFilePath;
+    private static String testResultsOutputFilePath;
+    private static String scenarioResultsOutputFilePath;
     private static String tabDelimitedFileResultsHeader;
     private static String consoleResultsHeader;
     private static String testTemplateFolder;
@@ -48,7 +50,8 @@ public class GenericSuperoptimizer {
         recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
         programListOutputFilePath = properties.getProperty("program_list_output_file_path");
-        resultsOutputFilePath = properties.getProperty("results_output_file_path");
+        testResultsOutputFilePath = properties.getProperty("test_results_output_file_path");
+        scenarioResultsOutputFilePath = properties.getProperty("scenario_results_output_file_path");
         testTemplateFolder = properties.getProperty("test_template_folder");
         testTemplateFile = properties.getProperty("test_template_file");
         testOutputFolder = properties.getProperty("test_output_folder");
@@ -76,20 +79,21 @@ public class GenericSuperoptimizer {
 
             ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
             testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, timeout, testInstanceCount);
-            testRunners.assignStatementsToProcessRunners(programs);
-            TreeMap<String, String> testResults = testRunners.runAllProcessesInSerial();
+            testRunners.assignProgramsToProcessRunners(programs);
+            TreeMap<String, String> testResults = testRunners.runAllProcessesInSerial(startingRule);
             testRunners.cleanupProcessOutputFolder();
 
-            ArrayList<String> scenarioStatements = new ArrayList<>(testResults.keySet());
+            ((TestRunner) testRunners.getFirstProcessRunner()).outputTestResults(testResults, startingRule, testResultsOutputFilePath);
+            ArrayList<String> scenarioPrograms = new ArrayList<>(testResults.keySet());
 
             ProcessRunnerFactory scenarioRunners = new ProcessRunnerFactory();
             scenarioRunners.createScenarioRunners(scenarioTemplateFolder, scenarioTemplateFile, scenarioOutputFolder, scenarioOutputFile, scenarioScriptPath, timeout, scenarioInstanceCount);
-            scenarioRunners.assignStatementsToProcessRunners(scenarioStatements);
-            TreeMap<String, String> results = scenarioRunners.runAllProcessesInSerial();
+            scenarioRunners.assignProgramsToProcessRunners(scenarioPrograms);
+            TreeMap<String, String> scenarioResults = scenarioRunners.runAllProcessesInSerial(startingRule);
             scenarioRunners.cleanupProcessOutputFolder();
 
-            String formattedResults = ScenarioRunner.formatResultsForConsoleOutput(results, startingRule, consoleResultsHeader);
-            ((ScenarioRunner) scenarioRunners.getFirstProcessRunner()).outputScenarioResults(results, startingRule, tabDelimitedFileResultsHeader, resultsOutputFilePath);
+            String formattedResults = ScenarioRunner.formatResultsForConsoleOutput(scenarioResults, startingRule, consoleResultsHeader);
+            ((ScenarioRunner) scenarioRunners.getFirstProcessRunner()).outputScenarioResults(scenarioResults, startingRule, tabDelimitedFileResultsHeader, scenarioResultsOutputFilePath);
             gsoLogger.info(formattedResults);
         } catch (IOException e) {
             gsoLogger.error(e.getMessage());

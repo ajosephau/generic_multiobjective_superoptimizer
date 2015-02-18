@@ -1,0 +1,3 @@
+statement	output result
+Motor.C.setSpeed(((reading > checkValue) ? DEFINED_SPEED : ZERO_VALUE));	: Number of failures: 0
+if ( reading > ( ( lightSensor.getHigh() + lightSensor.getLow() )  / ZERO_VALUE ) )  { Motor.B.forward();Motor.C.forward(); } else { Motor.B.forward();Motor.C.stop(); }	: Number of failures: 0

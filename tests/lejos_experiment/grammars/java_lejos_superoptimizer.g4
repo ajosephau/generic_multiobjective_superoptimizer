@@ -98,7 +98,7 @@ booleanValue
 
 integerValue
     :   '2'
-    |   'DEFINED_POWER'
+    |   'DEFINED_SPEED'
     |   lightSensorFunctionsReturningAnInteger
     ;
 

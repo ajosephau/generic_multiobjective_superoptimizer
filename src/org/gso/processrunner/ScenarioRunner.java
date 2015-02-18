@@ -3,8 +3,6 @@ package org.gso.processrunner;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -17,40 +15,22 @@ public class ScenarioRunner extends ProcessRunner {
         processRunnerLogger = Logger.getLogger(ScenarioRunner.class);
     }
 
-    public TreeMap<String, String> runProcesses() {
+    public TreeMap<String, String> runProcesses(String startingRule) {
+        int count = 1, size = this.getPrograms().size();
         scenarioResults = new TreeMap<>();
-        for (String statement : this.getStatements()) {
-            this.buildProgram(statement);
+        for (String program : this.getPrograms()) {
+            processRunnerLogger.info("Currently running test " + count + " of " + size);
+            this.buildProgram(startingRule, program);
             String processOutput = this.runProgram();
-            scenarioResults.put(statement, processOutput);
+            scenarioResults.put(program, processOutput);
+            count++;
         }
 
         return scenarioResults;
     }
     
     public void outputScenarioResults(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader, String resultsFilePath) {
-        try {
-            PrintWriter pw = new PrintWriter(resultsFilePath);
-            final String TAB_DELIMNITER = "\t";
-            Set<String> ruleSet = resultsMap.keySet();
-
-            pw.write(startingRule + TAB_DELIMNITER + resultsHeader + System.lineSeparator());
-            
-            if(!ruleSet.isEmpty()) {
-                for(String rule : ruleSet) {
-                    pw.write(rule + TAB_DELIMNITER + resultsMap.get(rule) + System.lineSeparator());
-                }
-            }
-            else {
-                pw.write("Empty results table." + System.lineSeparator());
-            }
-            
-            pw.close();
-        }
-        catch (FileNotFoundException e) {
-            processRunnerLogger.error(e);
-            System.exit(-1);
-        }
+        outputResults(resultsMap, startingRule, resultsHeader, resultsFilePath);
     }
 
     public static String formatResultsForConsoleOutput(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader) {

@@ -1,0 +1,4 @@
+Number of programs: 3
+1 of 3:	if ( reading > ( ( lightSensor.getHigh() + lightSensor.getLow() )  / ZERO_VALUE ) )  { Motor.B.forward();Motor.C.forward(); } else { Motor.B.forward();Motor.C.stop(); }
+2 of 3:	Motor.C.setSpeed(((reading > checkValue) ? DEFINED_SPEED : ZERO_VALUE));
+3 of 3:	if (reading > checkValue) { Motor.B.forward();  Motor.C.forward(); } else { Motor.B.forward(); Motor.B.stop(); }

@@ -6,14 +6,8 @@ import freemarker.template.TemplateException;
 import org.apache.commons.exec.*;
 import org.apache.log4j.Logger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.io.*;
+import java.util.*;
 
 public abstract class ProcessRunner {
     protected Logger processRunnerLogger = Logger.getLogger(ProcessRunner.class);
@@ -25,7 +19,7 @@ public abstract class ProcessRunner {
     private String testStringPath;
     private String processInput;
     private String processOutput;
-    private ArrayList<String> statements = new ArrayList<>();
+    private ArrayList<String> programs = new ArrayList<>();
     private int timeout;
     private int builderID;
     private Template programTemplate;
@@ -49,11 +43,11 @@ public abstract class ProcessRunner {
         }
     }
 
-    public void buildProgram(String statement) {
+    public void buildProgram(String startingRule, String program) {
         Map<String, String> data = new HashMap<>();
-        processInput = statement;
+        processInput = program;
 
-        data.put("statement", processInput);
+        data.put(startingRule, processInput);
 
         try {
             File directory = new File(getProgramOutputFolder());
@@ -108,14 +102,39 @@ public abstract class ProcessRunner {
         return processOutput;
     }
 
-    public abstract TreeMap<String, String> runProcesses();
+    protected void outputResults(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader, String resultsFilePath) {
+        try {
+            PrintWriter pw = new PrintWriter(resultsFilePath);
+            final String TAB_DELIMNITER = "\t";
+            Set<String> ruleSet = resultsMap.keySet();
+
+            pw.write(startingRule + TAB_DELIMNITER + resultsHeader + System.lineSeparator());
+
+            if(!ruleSet.isEmpty()) {
+                for(String rule : ruleSet) {
+                    pw.write(rule + TAB_DELIMNITER + resultsMap.get(rule) + System.lineSeparator());
+                }
+            }
+            else {
+                pw.write("Empty results table." + System.lineSeparator());
+            }
+
+            pw.close();
+        }
+        catch (FileNotFoundException e) {
+            processRunnerLogger.error(e);
+            System.exit(-1);
+        }
+    }
+
+    public abstract TreeMap<String, String> runProcesses(String startingRule);
 
     public String removeNewlines(String inputString) {
         return inputString.replace("\n", "").replace("\r", "");
     }
 
-    public void addStatementToStatements(String statement) {
-        getStatements().add(statement);
+    public void addProgramToPrograms(String program) {
+        getPrograms().add(program);
     }
 
     public int getBuilderID() {
@@ -182,7 +201,7 @@ public abstract class ProcessRunner {
         this.timeout = timeout;
     }
 
-    public ArrayList<String> getStatements() {
-        return statements;
+    public ArrayList<String> getPrograms() {
+        return programs;
     }
 }

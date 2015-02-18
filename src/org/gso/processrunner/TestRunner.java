@@ -11,17 +11,25 @@ public class TestRunner extends ProcessRunner {
         processRunnerLogger = Logger.getLogger(TestRunner.class);
     }
 
-    public TreeMap<String, String> runProcesses() {
+    public TreeMap<String, String> runProcesses(String startingRule) {
+        int count = 1, size = this.getPrograms().size();
         TreeMap<String, String> successfulPrograms = new TreeMap<>();
-        for (String statement : this.getStatements()) {
-            this.buildProgram(statement);
+        for (String program : this.getPrograms()) {
+            processRunnerLogger.info("Currently running test " + count + " of " + size);
+            this.buildProgram(startingRule, program);
             String processOutput = this.runProgram();
             String SUCCESS_TEXT = "true";
             if (processOutput.startsWith(SUCCESS_TEXT)) {
-                successfulPrograms.put(statement, processOutput.substring(SUCCESS_TEXT.length()));
+                successfulPrograms.put(program, processOutput.substring(SUCCESS_TEXT.length()));
             }
+            count++;
         }
 
         return successfulPrograms;
+    }
+
+    public void outputTestResults(TreeMap<String, String> resultsMap, String startingRule, String resultsFilePath) {
+        final String HEADER_TEXT = "output result";
+        outputResults(resultsMap, startingRule, HEADER_TEXT, resultsFilePath);
     }
 }

@@ -1,0 +1,3 @@
+statement	program file size
+Motor.C.setSpeed(((reading > checkValue) ? DEFINED_SPEED : ZERO_VALUE));	9106 : 1
+if ( reading > ( ( lightSensor.getHigh() + lightSensor.getLow() )  / ZERO_VALUE ) )  { Motor.B.forward();Motor.C.forward(); } else { Motor.B.forward();Motor.C.stop(); }	9441 : 5
