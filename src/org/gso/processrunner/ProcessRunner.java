@@ -20,6 +20,8 @@ public abstract class ProcessRunner {
     private String processInput;
     private String processOutput;
     private ArrayList<String> programs = new ArrayList<>();
+    private TreeMap<String, String> results = new TreeMap<>();
+    private String startingRule;
     private int timeout;
     private int builderID;
     private Template programTemplate;
@@ -110,24 +112,22 @@ public abstract class ProcessRunner {
 
             pw.write(startingRule + TAB_DELIMNITER + resultsHeader + System.lineSeparator());
 
-            if(!ruleSet.isEmpty()) {
-                for(String rule : ruleSet) {
+            if (!ruleSet.isEmpty()) {
+                for (String rule : ruleSet) {
                     pw.write(rule + TAB_DELIMNITER + resultsMap.get(rule) + System.lineSeparator());
                 }
-            }
-            else {
+            } else {
                 pw.write("Empty results table." + System.lineSeparator());
             }
 
             pw.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             processRunnerLogger.error(e);
             System.exit(-1);
         }
     }
 
-    public abstract TreeMap<String, String> runProcesses(String startingRule);
+    public abstract Object runProcesses();
 
     public String removeNewlines(String inputString) {
         return inputString.replace("\n", "").replace("\r", "");
@@ -203,5 +203,21 @@ public abstract class ProcessRunner {
 
     public ArrayList<String> getPrograms() {
         return programs;
+    }
+
+    public TreeMap<String, String> getResults() {
+        return results;
+    }
+
+    public void setResults(TreeMap<String, String> results) {
+        this.results = results;
+    }
+
+    public String getStartingRule() {
+        return startingRule;
+    }
+
+    public void setStartingRule(String startingRule) {
+        this.startingRule = startingRule;
     }
 }

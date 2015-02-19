@@ -10,23 +10,26 @@ public class ScenarioRunner extends ProcessRunner {
 
     TreeMap<String, String> scenarioResults;
     
-    protected ScenarioRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, int timeout, int builderID) {
+    protected ScenarioRunner(String templateFolder, String templateFile, String outputFolder, String outputFile, String testStringPath, String startingRule, int timeout, int builderID) {
         super(templateFolder, templateFile, outputFolder, outputFile, testStringPath, timeout, builderID);
+        this.setStartingRule(startingRule);
         processRunnerLogger = Logger.getLogger(ScenarioRunner.class);
     }
 
-    public TreeMap<String, String> runProcesses(String startingRule) {
+    public Object runProcesses() {
         int count = 1, size = this.getPrograms().size();
         scenarioResults = new TreeMap<>();
         for (String program : this.getPrograms()) {
             processRunnerLogger.info("Currently running test " + count + " of " + size);
-            this.buildProgram(startingRule, program);
+            this.buildProgram(this.getStartingRule(), program);
             String processOutput = this.runProgram();
             scenarioResults.put(program, processOutput);
             count++;
         }
 
-        return scenarioResults;
+        this.setResults(scenarioResults);
+
+        return this.getResults();
     }
     
     public void outputScenarioResults(TreeMap<String, String> resultsMap, String startingRule, String resultsHeader, String resultsFilePath) {

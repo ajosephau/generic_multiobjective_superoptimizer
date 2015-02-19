@@ -13,22 +13,22 @@ public class ProcessRunnerFactory {
     private static Logger tbfLogger = Logger.getLogger(ProcessRunnerFactory.class);
     private static String processOutputFolder;
 
-    public void createTestRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+    public void createTestRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, String startingRule, int timeout, int instanceCount) {
         createProcessRunners(outputFolder);
 
         processRunners = new ArrayList<>(instanceCount);
         for (int i = 0; i < instanceCount; i++) {
-            TestRunner tr = new TestRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
+            TestRunner tr = new TestRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, startingRule, timeout, i);
             processRunners.add(tr);
         }
     }
 
-    public void createScenarioRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, int timeout, int instanceCount) {
+    public void createScenarioRunners(String templateFolder, String templateFile, String outputFolder, String outputFile, String testScriptPath, String startingRule, int timeout, int instanceCount) {
         createProcessRunners(outputFolder);
 
         processRunners = new ArrayList<>(instanceCount);
         for (int i = 0; i < instanceCount; i++) {
-            ScenarioRunner sr = new ScenarioRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, timeout, i);
+            ScenarioRunner sr = new ScenarioRunner(templateFolder, templateFile, outputFolder, outputFile, testScriptPath, startingRule, timeout, i);
             processRunners.add(sr);
         }
     }
@@ -48,14 +48,34 @@ public class ProcessRunnerFactory {
         }
     }
 
-    public TreeMap<String, String> runAllProcessesInSerial(String startingRule) {
+    public TreeMap<String, String> runAllProcessesInSerial() {
         TreeMap<String, String> results = new TreeMap<>();
+
+
         for (ProcessRunner pr : processRunners) {
-            results.putAll(pr.runProcesses(startingRule));
+            pr.runProcesses();
+        }
+
+        for (ProcessRunner pr : processRunners) {
+            results.putAll(pr.getResults());
         }
 
         return results;
     }
+
+
+    public TreeMap<String, String> runAllProcessesInParallel() {
+        TreeMap<String, String> results = new TreeMap<>();
+
+        processRunners.parallelStream().map(ProcessRunner::runProcesses).count();
+
+        for (ProcessRunner pr : processRunners) {
+            results.putAll(pr.getResults());
+        }
+
+        return results;
+    }
+
 
     public void cleanupProcessOutputFolder() {
         File directory = new File(getProcessOutputFolder());
