@@ -1,10 +1,5 @@
-@ECHO off
-CALL nxjc %2 > nul
+@ECHO OFF
+XCOPY /Y /E /Q tests\lejos_experiment\tests\lejos_simulation_classes %1 > nul
 CD %1
-CALL nxjlink --output LeJOSFnTest.nxj LeJOSFnTest > nul
-CALL nxjupload --run --usb LeJOSFnTest.nxj > nul
-CALL nxjconsole > output.txt
-FINDSTR "Number of failures" output.txt
-DEL LeJOSFnTest.nxj
-DEL LeJOSFnTest.class
-DEL output.txt
+JAVAC LeJOSFnTest.java
+JAVA LeJOSFnTest

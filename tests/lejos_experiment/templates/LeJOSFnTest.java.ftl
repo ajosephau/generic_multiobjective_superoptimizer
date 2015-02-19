@@ -1,5 +1,4 @@
 import lejos.nxt.*;
-import lejos.nxt.comm.RConsole;
 
 public class LeJOSFnTest {
     private final static int DEFINED_SPEED = 67;
@@ -15,7 +14,6 @@ public class LeJOSFnTest {
             int[] checkValues = {checkValue, checkValue, checkValue, checkValue};
             boolean result = true;
 
-            RConsole.open();
             setUp();
 
             for (int i = 0; i < readingValues.length; i++) {
@@ -25,9 +23,7 @@ public class LeJOSFnTest {
                 }
             }
 
-            RConsole.println(result + ": Number of failures: " + numberOfFailures);
-
-            RConsole.close();
+            System.out.println(result + ": Number of failures: " + numberOfFailures);
 
         } catch (Exception e) {
             // no handler - expose to operator via LeJOS firmware.

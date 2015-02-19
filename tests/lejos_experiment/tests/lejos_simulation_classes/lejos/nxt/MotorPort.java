@@ -38,9 +38,9 @@ public class MotorPort implements TachoMotorPort {
 	public void controlMotor(int power, int mode)
 	{
 		// Convert lejos power and mode to NXT power and mode
-		controlMotorById(_id - 'A', 
-				         (mode >= 3 ? 0 : (mode == 2 ? -power: power)) ,
-				         (mode == 3 ? 1 : (mode == 4 ? 0 : _pwmMode)));
+		//controlMotorById(_id - 'A', 
+		//		         (mode >= 3 ? 0 : (mode == 2 ? -power: power)) ,
+		//		         (mode == 3 ? 1 : (mode == 4 ? 0 : _pwmMode)));
 	}
 
 	/**
