@@ -82,6 +82,7 @@ public class GenericSuperoptimizer {
             ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
             testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, startingRule, timeout, testInstanceCount);
             testRunners.assignProgramsToProcessRunners(programs);
+            programs.clear();
             TreeMap<String, String> testResults = new TreeMap<>();
             if(testInstanceCount > 1) {
                 testResults = testRunners.runAllProcessesInParallel();

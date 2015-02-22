@@ -46,7 +46,7 @@ public class SensorPort implements LegacySensorPort, I2CPort, ListenerCaller
    */
   public final int readRawValue()
   {
-    return readSensorValue (iPortId);
+    return 512;
   }
 
   /**
