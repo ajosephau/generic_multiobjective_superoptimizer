@@ -65,7 +65,7 @@ public class LightSensor implements SensorConstants
 	 * @return Value as raw normalized (0 to 1023)
 	 */
 	public int readNormalizedValue() {
-		return 1023 - port.readRawValue();
+		return 1023 - 512;
 	}
 
 /**
@@ -73,14 +73,14 @@ public class LightSensor implements SensorConstants
  **/
 	public void calibrateLow()
 	{
-		_zero = port.readRawValue();
+		_zero = 0;
 	}
 /** 
  *call this method whtn the light sensor is reading the high value - used by reaeValue
  */	
 	public void calibrateHigh()
 	{
-		_hundred = port.readRawValue();
+		_hundred = 1023;
 	}
 	/** 
 	 * set the normalized value corresponding to readValue() = 0
