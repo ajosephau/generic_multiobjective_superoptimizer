@@ -1,6 +1,7 @@
 package org.gso;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.gso.processrunner.ProcessRunnerFactory;
 import org.gso.processrunner.TestRunner;
 import org.gso.processrunner.ScenarioRunner;
@@ -33,6 +34,7 @@ public class GenericSuperoptimizer {
     private static String scenarioOutputFolder;
     private static String scenarioOutputFile;
     private static String scenarioScriptPath;
+    private static String log4j_properties_location;
 
     private static int testInstanceCount;
     private static int scenarioInstanceCount;
@@ -66,13 +68,16 @@ public class GenericSuperoptimizer {
         timeout = Integer.parseInt(properties.getProperty("timeout"));
         testInstanceCount = Integer.parseInt(properties.getProperty("test_instance_count"));
         scenarioInstanceCount = Integer.parseInt(properties.getProperty("scenario_instance_count"));
+
+        log4j_properties_location = properties.getProperty("log4j_properties_location");
+        PropertyConfigurator.configure(log4j_properties_location);
     }
 
 
     public static void runAsSingleProcessStandalone(String inputFile) {
         try {
-            gsoLogger.info("Step 1 of 5: Generating programs. Current time: " + new java.util.Date());
             setupParameters(inputFile);
+            gsoLogger.info("Step 1 of 5: Generating programs. Current time: " + new java.util.Date());
 
             ArrayList<String> programs = ProgramBuilder.getAllProgramsFromGrammar(grammar_path, startingRule, recursionLimit);
             ProgramBuilder.outputListOfProgramsToFile(programs, programListOutputFilePath);
