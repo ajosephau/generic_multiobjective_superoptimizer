@@ -36,6 +36,7 @@ public class GenericSuperoptimizer {
     private static String scenarioScriptPath;
     private static String log4j_properties_location;
 
+    private static int startingProgram;
     private static int testInstanceCount;
     private static int scenarioInstanceCount;
     private static int recursionLimit;
@@ -49,6 +50,7 @@ public class GenericSuperoptimizer {
         grammar_path = properties.getProperty("grammar_path");
         consoleResultsHeader = properties.getProperty("console_results_header");
         tabDelimitedFileResultsHeader = properties.getProperty("tab_delimited_file_results_header");
+        startingProgram = Integer.parseInt(properties.getProperty("starting_program"));
         recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
         startingRule = properties.getProperty("starting_rule");
         programListOutputFilePath = properties.getProperty("program_list_output_file_path");
@@ -66,6 +68,7 @@ public class GenericSuperoptimizer {
         scenarioScriptPath = properties.getProperty("scenario_script_path");
 
         timeout = Integer.parseInt(properties.getProperty("timeout"));
+        startingProgram = Integer.parseInt(properties.getProperty("starting_program"));
         testInstanceCount = Integer.parseInt(properties.getProperty("test_instance_count"));
         scenarioInstanceCount = Integer.parseInt(properties.getProperty("scenario_instance_count"));
 
@@ -86,7 +89,7 @@ public class GenericSuperoptimizer {
             gsoLogger.info("Step 2 of 5: Running tests. Current time: " + new java.util.Date());
             ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
             testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, startingRule, timeout, testInstanceCount);
-            testRunners.assignProgramsToProcessRunners(programs);
+            testRunners.assignProgramsToProcessRunners(programs, startingProgram);
             programs.clear();
             TreeMap<String, String> testResults = new TreeMap<>();
             if(testInstanceCount > 1) {
@@ -103,7 +106,7 @@ public class GenericSuperoptimizer {
             ArrayList<String> scenarioPrograms = new ArrayList<>(testResults.keySet());
             ProcessRunnerFactory scenarioRunners = new ProcessRunnerFactory();
             scenarioRunners.createScenarioRunners(scenarioTemplateFolder, scenarioTemplateFile, scenarioOutputFolder, scenarioOutputFile, scenarioScriptPath, startingRule, timeout, scenarioInstanceCount);
-            scenarioRunners.assignProgramsToProcessRunners(scenarioPrograms);
+            scenarioRunners.assignProgramsToProcessRunners(scenarioPrograms, startingProgram);
             TreeMap<String, String> scenarioResults = new TreeMap<>();
             if(scenarioInstanceCount > 1) {
                 scenarioResults = scenarioRunners.runAllProcessesInSerial();

@@ -41,10 +41,16 @@ public class ProcessRunnerFactory {
         tbfLogger.debug("Result from creating directory: " + directory.getAbsolutePath() + ": " + mkdirResult);
     }
 
-    public void assignProgramsToProcessRunners(ArrayList<String> programs) {
+    public void assignProgramsToProcessRunners(ArrayList<String> programs, int startingProgram) {
         int numProcessRunners = processRunners.size();
         for (int i = 0; i < programs.size(); i++) {
             processRunners.get(i % numProcessRunners).addProgramToPrograms(programs.get(i));
+        }
+
+        for(ProcessRunner pr: processRunners) {
+            if(startingProgram > pr.getPrograms().size()) {
+                pr.setPrograms(new ArrayList(pr.getPrograms().subList(startingProgram, pr.getPrograms().size())));
+            }
         }
     }
 

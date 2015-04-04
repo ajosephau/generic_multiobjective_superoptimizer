@@ -201,6 +201,10 @@ public abstract class ProcessRunner {
         this.timeout = timeout;
     }
 
+    public void setPrograms(ArrayList<String> programs) {
+        this.programs = programs;
+    }
+
     public ArrayList<String> getPrograms() {
         return programs;
     }
