@@ -23,6 +23,7 @@ public class GenericSuperoptimizer {
     private static String testResultsOutputFilePath;
     private static String scenarioResultsOutputFilePath;
     private static String tabDelimitedFileResultsHeader;
+    private static String mode;
     private static String consoleResultsHeader;
     private static String testTemplateFolder;
     private static String testTemplateFile;
@@ -35,6 +36,9 @@ public class GenericSuperoptimizer {
     private static String scenarioOutputFile;
     private static String scenarioScriptPath;
     private static String log4j_properties_location;
+
+    private static final String TEST_ONLY_MODE = "tests only";
+    private static final String SCENARIO_ONLY_MODE = "scenarios only";
 
     private static int startingProgram;
     private static int testInstanceCount;
@@ -49,6 +53,7 @@ public class GenericSuperoptimizer {
 
         grammar_path = properties.getProperty("grammar_path");
         consoleResultsHeader = properties.getProperty("console_results_header");
+        mode = properties.getProperty("mode");
         tabDelimitedFileResultsHeader = properties.getProperty("tab_delimited_file_results_header");
         startingProgram = Integer.parseInt(properties.getProperty("starting_program"));
         recursionLimit = Integer.parseInt(properties.getProperty("program_builder_recursion_limit"));
@@ -86,40 +91,55 @@ public class GenericSuperoptimizer {
             ProgramBuilder.outputListOfProgramsToFile(programs, programListOutputFilePath);
             gsoLogger.info(programs.size() + " programs created.");
 
-            gsoLogger.info("Step 2 of 5: Running tests. Current time: " + new java.util.Date());
-            ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
-            testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, startingRule, timeout, testInstanceCount);
-            testRunners.assignProgramsToProcessRunners(programs, startingProgram);
-            programs.clear();
-            TreeMap<String, String> testResults = new TreeMap<>();
-            if(testInstanceCount > 1) {
-                testResults = testRunners.runAllProcessesInParallel();
+            ArrayList<String> scenarioPrograms;
+
+            if(!mode.equals(SCENARIO_ONLY_MODE)) {
+                gsoLogger.info("Step 2 of 5: Running tests. Current time: " + new java.util.Date());
+                ProcessRunnerFactory testRunners = new ProcessRunnerFactory();
+                testRunners.createTestRunners(testTemplateFolder, testTemplateFile, testOutputFolder, testOutputFile, testScriptPath, startingRule, timeout, testInstanceCount);
+                testRunners.assignProgramsToProcessRunners(programs, startingProgram);
+                programs.clear();
+                TreeMap<String, String> testResults = new TreeMap<>();
+                if(testInstanceCount > 1) {
+                    testResults = testRunners.runAllProcessesInParallel();
+                }
+                else {
+                    testResults = testRunners.runAllProcessesInSerial();
+                }
+                testRunners.cleanupProcessOutputFolder();
+                gsoLogger.info("Step 3 of 5: Outputting test results. Current time: " + new java.util.Date());
+                ((TestRunner) testRunners.getFirstProcessRunner()).outputTestResults(testResults, startingRule, testResultsOutputFilePath);
+                scenarioPrograms = new ArrayList<>(testResults.keySet());
             }
             else {
-                testResults = testRunners.runAllProcessesInSerial();
+                gsoLogger.info("Skipping step 2 of 5: Running tests. Current time: " + new java.util.Date());
+                gsoLogger.info("Skipping step 3 of 5: Outputting test results. Current time: " + new java.util.Date());
+                scenarioPrograms = new ArrayList<>(programs);
             }
-            testRunners.cleanupProcessOutputFolder();
-            gsoLogger.info("Step 3 of 5: Outputting test results. Current time: " + new java.util.Date());
-            ((TestRunner) testRunners.getFirstProcessRunner()).outputTestResults(testResults, startingRule, testResultsOutputFilePath);
 
-            gsoLogger.info("Step 4 of 5: Running scenarios. Current time: " + new java.util.Date());
-            ArrayList<String> scenarioPrograms = new ArrayList<>(testResults.keySet());
-            ProcessRunnerFactory scenarioRunners = new ProcessRunnerFactory();
-            scenarioRunners.createScenarioRunners(scenarioTemplateFolder, scenarioTemplateFile, scenarioOutputFolder, scenarioOutputFile, scenarioScriptPath, startingRule, timeout, scenarioInstanceCount);
-            scenarioRunners.assignProgramsToProcessRunners(scenarioPrograms, startingProgram);
-            TreeMap<String, String> scenarioResults = new TreeMap<>();
-            if(scenarioInstanceCount > 1) {
-                scenarioResults = scenarioRunners.runAllProcessesInSerial();
+            if(!mode.equals(TEST_ONLY_MODE)) {
+                gsoLogger.info("Step 4 of 5: Running scenarios. Current time: " + new java.util.Date());
+                ProcessRunnerFactory scenarioRunners = new ProcessRunnerFactory();
+                scenarioRunners.createScenarioRunners(scenarioTemplateFolder, scenarioTemplateFile, scenarioOutputFolder, scenarioOutputFile, scenarioScriptPath, startingRule, timeout, scenarioInstanceCount);
+                scenarioRunners.assignProgramsToProcessRunners(scenarioPrograms, startingProgram);
+                TreeMap<String, String> scenarioResults = new TreeMap<>();
+                if (scenarioInstanceCount > 1) {
+                    scenarioResults = scenarioRunners.runAllProcessesInSerial();
+                } else {
+                    scenarioResults = scenarioRunners.runAllProcessesInSerial();
+                }
+                scenarioRunners.cleanupProcessOutputFolder();
+
+                gsoLogger.info("Step 5 of 5: Outputting scenario results. Current time: " + new java.util.Date());
+                String formattedResults = ScenarioRunner.formatResultsForConsoleOutput(scenarioResults, startingRule, consoleResultsHeader);
+                ((ScenarioRunner) scenarioRunners.getFirstProcessRunner()).outputScenarioResults(scenarioResults, startingRule, tabDelimitedFileResultsHeader, scenarioResultsOutputFilePath);
+                gsoLogger.info(formattedResults);
             }
             else {
-                scenarioResults = scenarioRunners.runAllProcessesInSerial();
+                gsoLogger.info("Skipping step 4 of 5: Running scenarios. Current time: " + new java.util.Date());
+                gsoLogger.info("Skipping step 5 of 5: Outputting scenario results. Current time: " + new java.util.Date());
             }
-            scenarioRunners.cleanupProcessOutputFolder();
 
-            gsoLogger.info("Step 5 of 5: Outputting scenario results. Current time: " + new java.util.Date());
-            String formattedResults = ScenarioRunner.formatResultsForConsoleOutput(scenarioResults, startingRule, consoleResultsHeader);
-            ((ScenarioRunner) scenarioRunners.getFirstProcessRunner()).outputScenarioResults(scenarioResults, startingRule, tabDelimitedFileResultsHeader, scenarioResultsOutputFilePath);
-            gsoLogger.info(formattedResults);
         } catch (IOException e) {
             gsoLogger.error(e.getMessage());
         }

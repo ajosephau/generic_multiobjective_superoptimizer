@@ -48,7 +48,7 @@ public class ProcessRunnerFactory {
         }
 
         for(ProcessRunner pr: processRunners) {
-            if(startingProgram > pr.getPrograms().size()) {
+            if(startingProgram < pr.getPrograms().size()) {
                 pr.setPrograms(new ArrayList(pr.getPrograms().subList(startingProgram, pr.getPrograms().size())));
             }
         }

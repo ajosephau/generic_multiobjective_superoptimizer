@@ -20,7 +20,7 @@ public class ScenarioRunner extends ProcessRunner {
         int count = 1, size = this.getPrograms().size();
         scenarioResults = new TreeMap<>();
         for (String program : this.getPrograms()) {
-            processRunnerLogger.info("Currently running test " + count + " of " + size);
+            processRunnerLogger.info("Currently running scenario " + count + " of " + size);
             this.buildProgram(this.getStartingRule(), program);
             String processOutput = this.runProgram();
             scenarioResults.put(program, processOutput);
